@@ -9,7 +9,7 @@ class DraggableWindow extends StatefulWidget {
   double x = 0 ;
   double y = 0;
 
-  DraggableWindow({Key key, this.childWidget,this.feedback}) : super(key: key);
+  DraggableWindow({Key? key, required this.childWidget,required this.feedback}) : super(key: key);
 
   void setListener(VoidCallback listener){
     feedback = listener;

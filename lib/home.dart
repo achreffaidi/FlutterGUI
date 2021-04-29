@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-  WindowManager _windowManager;
+  late WindowManager _windowManager;
 
 
   @override
@@ -35,10 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
       _windowManager.generateSimpleDraggableWindow("Window 1 ");
       _windowManager.generateSimpleDraggableWindow("Window 2 ");
-      _windowManager.generateSimpleDraggableWindow("Window 3 ");
-      _windowManager.generateSimpleDraggableWindow("Window 4 ");
-      _windowManager.generateSimpleDraggableWindow("Window 5 ");
-      _windowManager.generateSimpleDraggableWindow("Window 6 ");
+      _windowManager.startCalculatorApp();
+
 
 
     super.initState();

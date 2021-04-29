@@ -2,26 +2,35 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mywebsite/windows/WindowListener.dart';
 
-class WindowBody extends StatefulWidget {
+abstract class WindowBody extends StatefulWidget {
 
 
-  final String title;
-        WindowListener listener;
-        WindowBody({Key key, this.title, this.listener}) : super(key: key);
+        String? title;
+        WindowListener? listener;
+        WindowBody({Key? key, this.title, this.listener}) : super(key: key);
 
   void setListener(WindowListener listener){
     this.listener = listener;
   }
 
-  @override
-  _WindowBodyState createState() => _WindowBodyState();
+
 }
 
 
-class _WindowBodyState extends State<WindowBody> {
+abstract class WindowBodyState extends State<WindowBody> {
 
-  double windowWidth = 400;
-  double windowHeight = 300;
+  late double windowWidth ;
+  late double windowHeight ;
+
+
+  @override
+  void initState() {
+    super.initState();
+     windowWidth = getWidth();
+     windowHeight = getHeight();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +38,7 @@ class _WindowBodyState extends State<WindowBody> {
    
 
     return Container(
-      width: windowWidth,
-      height: windowHeight,
       child: Container(
-        height: windowWidth,
-        width: windowWidth,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -67,11 +72,11 @@ class _WindowBodyState extends State<WindowBody> {
       height: 40,
       color: Colors.blueGrey,
       child: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title!),
         leading: Row(
           children: [
             _getCircleButton(Colors.red, Icons.close,callback: (){
-              widget.listener.onWindowClose(widget);
+              widget.listener!.onWindowClose(widget);
             }),
             _getCircleButton(Colors.orangeAccent, Icons.remove),
             _getCircleButton(Colors.green, Icons.fullscreen)
@@ -87,15 +92,19 @@ class _WindowBodyState extends State<WindowBody> {
       onVerticalDragDown: (_) {},
       onHorizontalDragDown: (_) {},
       child: Container(
-        width: windowWidth,
-        height: windowHeight-190,
-        color: Colors.lightBlueAccent,),
+
+          child: getApp()),
     );
   }
 
+  double getWidth();
+  double getHeight();
+  Widget getApp();
 
 
-  _getCircleButton(Color color, IconData iconData, {VoidCallback callback}){
+  
+
+  _getCircleButton(Color color, IconData iconData, {VoidCallback? callback}){
 
     return InkResponse(
       onTap: callback,
