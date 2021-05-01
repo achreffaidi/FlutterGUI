@@ -40,19 +40,14 @@ abstract class ApplicationState extends State<Application> {
     return Container(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10)
-          ),
+          //Here goes the same radius, u can put into a var or function
+          borderRadius:
+          BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 3), // changes position of shadow
+              color: Color(0x54000000),
+              spreadRadius:4,
+              blurRadius: 5,
             ),
           ],
         ),
@@ -69,20 +64,37 @@ abstract class ApplicationState extends State<Application> {
   _getHeader() {
     return Container(
       width: windowWidth,
-      height: 40,
-      color: Colors.blueGrey,
-      child: AppBar(
-        title: Text(widget.title!),
-        leading: Row(
-          children: [
-            _getCircleButton(Colors.red, Icons.close,callback: (){
-              widget.listener!.onWindowClose(widget);
-            }),
-            _getCircleButton(Colors.orangeAccent, Icons.remove),
-            _getCircleButton(Colors.green, Icons.fullscreen)
-          ],
+      height: 30,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
         ),
       ),
+      child: Stack(
+        children: [
+
+          Positioned(
+
+            left: 10,
+            top: 10,
+            bottom: 10,
+
+            child: Row(
+              children: [
+                _getCircleButton(Colors.red, Icons.close,callback: (){
+                  widget.listener!.onWindowClose(widget);
+                }),
+                _getCircleButton(Colors.orangeAccent, Icons.remove),
+                _getCircleButton(Colors.green, Icons.fullscreen)
+              ],
+            ),
+          ),
+          Center(child: Title(color: Colors.white, child: Text(widget.title!))),
+          Container()
+        ],
+      )
     );
 
   }
@@ -93,7 +105,14 @@ abstract class ApplicationState extends State<Application> {
       onHorizontalDragDown: (_) {},
       child: Container(
 
-          child: getApp()),
+          child: ClipRRect(
+
+              borderRadius:
+              BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)
+              ),
+              child: getApp())),
     );
   }
 
