@@ -8,7 +8,7 @@ class DraggableWindow extends StatefulWidget {
   VoidCallback feedback;
   double x = 0 ;
   double y = 0;
-
+  Key key = UniqueKey();
   DraggableWindow({Key? key, required this.childWidget,required this.feedback}) : super(key: key);
 
   void setListener(VoidCallback listener){
@@ -23,22 +23,20 @@ class DraggableWindowState extends State<DraggableWindow> {
 
 
   @override
+  void initState() {
+    super.initState();
+    widget.childWidget.callback = (x,y){
+      setState(() {
+        print(x);
+        widget.x += x;
+        widget.y += y;
+        widget.feedback();
+      });
+    };
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Draggable(
-
-    child: widget.childWidget,
-    feedback: Material(
-      color: Colors.transparent,
-      child: Opacity(
-        opacity: 0.5,
-        child: widget.childWidget),),
-    childWhenDragging: Container(),
-
-    onDragEnd: (dragDetails) {
-    widget.x = dragDetails.offset.dx;
-    widget.y = dragDetails.offset.dy ;
-    widget.feedback();
-    },
-    );
+    return widget.childWidget;
   }
 }

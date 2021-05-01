@@ -1,12 +1,5 @@
-// Copyright 2013 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
-// ignore_for_file: public_member_api_docs
 
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:mywebsite/windows/window.dart';
@@ -17,7 +10,10 @@ import '../WindowListener.dart';
 
 
 class CalculatorApp extends Application {
-  CalculatorApp( { Key? key, String? title,  WindowListener? listener }) : super(key: key,title: title,listener: listener);
+
+
+
+   CalculatorApp( { required Key key,GlobalKey? appKey,  String? title,  WindowListener? listener }) : super(key: key,appKey: appKey,title: title,listener: listener);
 
   
 
@@ -37,7 +33,6 @@ class _WebViewExampleState extends ApplicationState {
       height: windowHeight,
       width: windowWidth,
       child: SimpleCalculator(
-
         theme: const CalculatorThemeData(
           displayColor: Colors.black,
           displayStyle: const TextStyle(fontSize: 80, color: Colors.yellow),

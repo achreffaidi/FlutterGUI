@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:mywebsite/windows/apps/pdfReader.dart';
 import 'package:mywebsite/windows/draggableWindow.dart';
-import 'package:mywebsite/windows/window.dart';
 
 import 'WindowListener.dart';
 import 'apps/calculator.dart';
@@ -19,9 +18,10 @@ class WindowManager{
   void startCalculatorApp(){
 
     var key = UniqueKey();
+    var appKey = GlobalKey();
     final draggableWindow =  DraggableWindow(
       key: key ,
-      childWidget: CalculatorApp(title: "Calculator"), feedback: () {  },);
+      childWidget: CalculatorApp(key: key,appKey: appKey, title: "Calculator"), feedback: () {  },);
 
     draggableWindow.setListener((){
 
@@ -29,7 +29,7 @@ class WindowManager{
 
       windows.insert(0, draggableWindow);
 
-      onUpdate();
+       onUpdate();
 
     });
 
@@ -40,7 +40,7 @@ class WindowManager{
           onUpdate();
         }));
 
-    windows.add(draggableWindow);
+     windows.add(draggableWindow);
 
     onUpdate();
   }
@@ -48,9 +48,11 @@ class WindowManager{
   void startPdfApp(){
 
     var key = UniqueKey();
+    var appKey = GlobalKey();
+
     final draggableWindow =  DraggableWindow(
       key: key ,
-      childWidget: PdfReaderApp(title: "Pdf Reader"), feedback: () {  },);
+      childWidget: PdfReaderApp(title: "Pdf Reader",appKey: appKey), feedback: () {  },);
 
     draggableWindow.setListener((){
 
@@ -77,10 +79,10 @@ class WindowManager{
 
   void generateSimpleDraggableWindow(String title){
 
-    var key = UniqueKey();
+    var key = GlobalKey();
     final draggableWindow =  DraggableWindow(
       key: key ,
-      childWidget: CalculatorApp(title: title), feedback: () {  },);
+      childWidget: CalculatorApp(key: key,title: title), feedback: () {  },);
 
     draggableWindow.setListener((){
 

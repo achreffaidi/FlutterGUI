@@ -7,9 +7,13 @@ abstract class Application extends StatefulWidget {
 
         String? title;
         WindowListener? listener;
-        Application({Key? key, this.title, this.listener}) : super(key: key);
+        GlobalKey? appKey;
+        Application({Key? key,this.appKey, this.title, this.listener}) : super(key: key);
 
-  void setListener(WindowListener listener){
+        Function(double,double)? callback;
+
+
+        void setListener(WindowListener listener){
     this.listener = listener;
   }
 
@@ -38,6 +42,7 @@ abstract class ApplicationState extends State<Application> {
    
 
     return Container(
+      key: widget.appKey,
       child: Container(
         decoration: BoxDecoration(
           //Here goes the same radius, u can put into a var or function
@@ -62,47 +67,59 @@ abstract class ApplicationState extends State<Application> {
   }
 
   _getHeader() {
-    return Container(
-      width: windowWidth,
-      height: 30,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-        ),
-      ),
-      child: Stack(
-        children: [
+    return GestureDetector(
+        onPanUpdate: (tapInfo) {
+          setState(() {
+            widget.callback!(tapInfo.delta.dx,tapInfo.delta.dy);
 
-          Positioned(
-
-            left: 10,
-            top: 10,
-            bottom: 10,
-
-            child: Row(
-              children: [
-                _getCircleButton(Colors.red, Icons.close,callback: (){
-                  widget.listener!.onWindowClose(widget);
-                }),
-                _getCircleButton(Colors.orangeAccent, Icons.remove),
-                _getCircleButton(Colors.green, Icons.fullscreen)
-              ],
-            ),
+          });},
+      child: Container(
+        width: windowWidth,
+        height: 30,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
           ),
-          Center(child: Title(color: Colors.white, child: Text(widget.title!))),
-          Container()
-        ],
-      )
+        ),
+        child: Stack(
+          children: [
+
+            Positioned(
+
+              left: 10,
+              top: 10,
+              bottom: 10,
+
+              child: Row(
+                children: [
+                  _getCircleButton(Colors.red, Icons.close,callback: (){
+                    widget.listener!.onWindowClose(widget);
+                  }),
+                  _getCircleButton(Colors.orangeAccent, Icons.remove),
+                  _getCircleButton(Colors.green, Icons.fullscreen)
+                ],
+              ),
+            ),
+            Center(child: Title(color: Colors.white, child: Text(widget.title!))),
+            Container()
+          ],
+        )
+      ),
     );
 
   }
 
   _getBody() {
     return GestureDetector(
-      onVerticalDragDown: (_) {},
-      onHorizontalDragDown: (_) {},
+      onVerticalDragDown: (offset) {
+
+      },
+      onHorizontalDragDown: (_) {
+
+      },
+
       child: Container(
 
           child: ClipRRect(

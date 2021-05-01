@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getPositioned(){
    return _windowManager.windows.reversed.map((e) => Positioned(
+     key: e.key,
         left: e.x,
         top: e.y,
         child: e)).toList();
