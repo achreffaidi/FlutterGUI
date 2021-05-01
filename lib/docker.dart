@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:mywebsite/Docker/dockerItem.dart';
+import 'package:mywebsite/Util/fileManager/fileIconManager.dart';
+
 class Docker extends StatefulWidget {
+
+  Function (DockItem item) callback;
+
+  Docker(this.callback);
+
   @override
   _DockerState createState() => _DockerState();
 }
@@ -14,7 +22,21 @@ class _DockerState extends State<Docker> {
   var _offest = 0.0;
   var currentIndex = -1;
 
-  List<String> items = ["item 1","item 2","item 3","item 4","item 5","item 6","item 7","item 8","item 9","item 10","item 11"];
+  List<DockItem> items = [
+    DockItem("Calculator", FileType.APP_CALCULATOR),
+    DockItem("File Manager", FileType.APP_FILE_MANAGER),
+    DockItem("youtube", FileType.APP_YOUTUBE),
+    DockItem("Calculator", FileType.APP_CALCULATOR),
+    DockItem("File Manager", FileType.APP_FILE_MANAGER),
+    DockItem("youtube", FileType.APP_YOUTUBE),
+    DockItem("Calculator", FileType.APP_CALCULATOR),
+    DockItem("File Manager", FileType.APP_FILE_MANAGER),
+    DockItem("youtube", FileType.APP_YOUTUBE),
+    DockItem("Calculator", FileType.APP_CALCULATOR),
+    DockItem("File Manager", FileType.APP_FILE_MANAGER),
+    DockItem("youtube", FileType.APP_YOUTUBE),
+
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +88,7 @@ left: 0,
                 child: MouseRegion(
                   child: GestureDetector(
                     onTap: (){
-                        print(currentIndex.toString());
+                        widget.callback(items[currentIndex]);
                     },
                   ),
                   onHover: (event){
@@ -104,12 +126,12 @@ left: 0,
       var dx = getButtons(i);
       list.add(Column(
         children: [
-          i == currentIndex? Text(items[i]):Container(),
+          i == currentIndex? Card(child: Text(items[i].name)):Container(),
           Container(
             margin: EdgeInsets.only(bottom: getButtons(i)/3, right: (dx+defaultSize)/5,left: (dx+defaultSize)/5),
             height:  dx + defaultSize,
             width: dx + defaultSize,
-            color: Colors.red,
+            child: Image.asset(items[i].getIcon())
           ),
         ],
       ),);

@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mywebsite/windows/WindowListener.dart';
 
-abstract class WindowBody extends StatefulWidget {
+abstract class Application extends StatefulWidget {
 
 
         String? title;
         WindowListener? listener;
-        WindowBody({Key? key, this.title, this.listener}) : super(key: key);
+        Application({Key? key, this.title, this.listener}) : super(key: key);
 
   void setListener(WindowListener listener){
     this.listener = listener;
@@ -17,7 +17,7 @@ abstract class WindowBody extends StatefulWidget {
 }
 
 
-abstract class WindowBodyState extends State<WindowBody> {
+abstract class ApplicationState extends State<Application> {
 
   late double windowWidth ;
   late double windowHeight ;

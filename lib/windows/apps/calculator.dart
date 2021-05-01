@@ -16,16 +16,16 @@ import '../WindowListener.dart';
 
 
 
-class CalculatorApp extends WindowBody {
+class CalculatorApp extends Application {
   CalculatorApp( { Key? key, String? title,  WindowListener? listener }) : super(key: key,title: title,listener: listener);
 
-
+  
 
   @override
   _WebViewExampleState createState() => _WebViewExampleState();
 }
 
-class _WebViewExampleState extends WindowBodyState {
+class _WebViewExampleState extends ApplicationState {
 
 
 

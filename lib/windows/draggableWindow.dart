@@ -3,7 +3,7 @@ import 'package:mywebsite/windows/window.dart';
 
 class DraggableWindow extends StatefulWidget {
 
-  final WindowBody childWidget;
+  final Application childWidget;
 
   VoidCallback feedback;
   double x = 0 ;
@@ -20,8 +20,6 @@ class DraggableWindow extends StatefulWidget {
 }
 
 class DraggableWindowState extends State<DraggableWindow> {
-
-
 
 
   @override

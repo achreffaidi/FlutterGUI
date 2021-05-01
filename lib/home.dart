@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mywebsite/Docker/dockerItem.dart';
+import 'package:mywebsite/Util/fileManager/fileIconManager.dart';
 import 'package:mywebsite/windows/WindowListener.dart';
 import 'package:mywebsite/docker.dart';
 import 'package:mywebsite/windows/WindowManager.dart';
@@ -33,12 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-      _windowManager.generateSimpleDraggableWindow("Window 1 ");
-      _windowManager.generateSimpleDraggableWindow("Window 2 ");
-      _windowManager.startCalculatorApp();
-
-
-
     super.initState();
   }
 
@@ -63,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: 20,
               left: 0,
               right: 0,
-              child: Center(child: GestureDetector(child: Docker()).showCursorOnHover))
+              child: Center(child: GestureDetector(child: Docker(_onDockerItemClicked)).showCursorOnHover))
         ],
       ),
     );
@@ -78,5 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
         children: getPositioned(),
       ),
     );
+  }
+
+  _onDockerItemClicked(DockItem item) {
+    if(item.fileType == FileType.APP_CALCULATOR){
+      _windowManager.startCalculatorApp();
+    }
   }
 }

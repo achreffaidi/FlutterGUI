@@ -2,14 +2,14 @@
 
 class WindowListener{
 
-    Function(WindowBody)? onClose;
-    Function(WindowBody)? onResize;
-    Function(WindowBody)? onHide;
+    Function(Application)? onClose;
+    Function(Application)? onResize;
+    Function(Application)? onHide;
 
 
     WindowListener({this.onClose, this.onResize, this.onHide});
 
-  void onWindowClose(WindowBody windowBody){
+  void onWindowClose(Application windowBody){
             onClose!(windowBody);
     }
 
