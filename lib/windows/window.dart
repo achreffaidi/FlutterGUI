@@ -19,8 +19,8 @@ abstract class Application extends StatefulWidget {
 
 abstract class ApplicationState extends State<Application> {
 
-  late double windowWidth ;
-  late double windowHeight ;
+  late double? windowWidth ;
+  late double? windowHeight ;
 
 
   @override
@@ -116,8 +116,8 @@ abstract class ApplicationState extends State<Application> {
     );
   }
 
-  double getWidth();
-  double getHeight();
+  double? getWidth();
+  double? getHeight();
   Widget getApp();
 
 

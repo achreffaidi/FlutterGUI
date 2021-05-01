@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:mywebsite/windows/apps/pdfReader.dart';
 import 'package:mywebsite/windows/draggableWindow.dart';
 import 'package:mywebsite/windows/window.dart';
 
@@ -21,6 +22,35 @@ class WindowManager{
     final draggableWindow =  DraggableWindow(
       key: key ,
       childWidget: CalculatorApp(title: "Calculator"), feedback: () {  },);
+
+    draggableWindow.setListener((){
+
+      windows.remove(draggableWindow);
+
+      windows.insert(0, draggableWindow);
+
+      onUpdate();
+
+    });
+
+
+    draggableWindow.childWidget.setListener(WindowListener(
+        onClose: (window){
+          windows.remove(draggableWindow);
+          onUpdate();
+        }));
+
+    windows.add(draggableWindow);
+
+    onUpdate();
+  }
+
+  void startPdfApp(){
+
+    var key = UniqueKey();
+    final draggableWindow =  DraggableWindow(
+      key: key ,
+      childWidget: PdfReaderApp(title: "Pdf Reader"), feedback: () {  },);
 
     draggableWindow.setListener((){
 
