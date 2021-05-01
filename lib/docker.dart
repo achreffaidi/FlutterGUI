@@ -12,10 +12,14 @@ class _DockerState extends State<Docker> {
   static const defaultSize = 40.0;
   static const off = 5.0;
   var _offest = 0.0;
+  var currentIndex = -1;
+
+  List<String> items = ["item 1","item 2","item 3","item 4","item 5","item 6","item 7","item 8","item 9","item 10","item 11"];
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width*0.7,
+      width: MediaQuery.of(context).size.width*(_offest==0?0.5:0.6),
       child: Stack(
         children: [
 
@@ -60,10 +64,15 @@ left: 0,
                   ),
                 ),
                 child: MouseRegion(
-
+                  child: GestureDetector(
+                    onTap: (){
+                        print(currentIndex.toString());
+                    },
+                  ),
                   onHover: (event){
                     setState(() {
                       _offest = event.position.dx;
+                      currentIndex =  ((_offest-460)/100 ).round();
                     });
                   },
                   onExit: (event){
@@ -80,22 +89,29 @@ left: 0,
     );
   }
 
-  double getButtons(int i){
+  double getButtons(int x){
       if(_offest==0) return 0 ;
-      var size = i+1 - 8*(_offest/(MediaQuery.of(context).size.width*0.8));
-      size = sqrt(size*size);
-      size = sqrt((7 - size)*(7 - size))/2;
-      return exp(size*1.2) ;
+      var x1 = (_offest-460)/100 + 1;
+      var z = (x - x1)*(x - x1) - 4 ;
+      if(z>0) return 0 ;
+      return sqrt(-z)*20;
+
   }
 
   List<Widget> getList(){
     List<Widget> list = [];
-    for(int  i = 1 ; i<8;i++){
-      list.add(Container(
-        margin: EdgeInsets.only(bottom: getButtons(i)/4),
-        height: getButtons(i) + defaultSize,
-        width: getButtons(i) + defaultSize,
-        color: Colors.red,
+    for(int  i = 0 ; i<items.length;i++){
+      var dx = getButtons(i);
+      list.add(Column(
+        children: [
+          i == currentIndex? Text(items[i]):Container(),
+          Container(
+            margin: EdgeInsets.only(bottom: getButtons(i)/3, right: (dx+defaultSize)/5,left: (dx+defaultSize)/5),
+            height:  dx + defaultSize,
+            width: dx + defaultSize,
+            color: Colors.red,
+          ),
+        ],
       ),);
     }
     return list ;

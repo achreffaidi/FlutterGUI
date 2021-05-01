@@ -53,6 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body:Stack(
         children: [
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Image.network("https://blog.glugmvit.com/assets/images/first_app/flutter.jpg",fit: BoxFit.fill,),
+          ),
           _getBody(),
           Positioned(
               bottom: 20,
