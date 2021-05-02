@@ -112,25 +112,16 @@ abstract class ApplicationState extends State<Application> {
   }
 
   _getBody() {
-    return GestureDetector(
-      onVerticalDragDown: (offset) {
+    return Container(
 
-      },
-      onHorizontalDragDown: (_) {
+        child: ClipRRect(
 
-      },
-
-      child: Container(
-
-          child: ClipRRect(
-
-              borderRadius:
-              BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10)
-              ),
-              child: getApp())),
-    );
+            borderRadius:
+            BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10)
+            ),
+            child: getApp()));
   }
 
   double? getWidth();

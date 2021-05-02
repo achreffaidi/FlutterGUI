@@ -30,6 +30,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_simple_calculator: ^2.0.0-nullsafety.1
   native_pdf_view: ^4.0.1
+  painter: ^0.4.0
+  flutter_colorpicker: ^0.4.0
 
 dev_dependencies:
   flutter_test:

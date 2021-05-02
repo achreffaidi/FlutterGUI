@@ -4,6 +4,7 @@ import 'package:mywebsite/windows/draggableWindow.dart';
 
 import 'WindowListener.dart';
 import 'apps/calculator.dart';
+import 'apps/painter.dart';
 
 class WindowManager{
 
@@ -45,6 +46,8 @@ class WindowManager{
     onUpdate();
   }
 
+  
+  
   void startPdfApp(){
 
     var key = UniqueKey();
@@ -53,6 +56,36 @@ class WindowManager{
     final draggableWindow =  DraggableWindow(
       key: key ,
       childWidget: PdfReaderApp(title: "Pdf Reader",appKey: appKey), feedback: () {  },);
+
+    draggableWindow.setListener((){
+
+      windows.remove(draggableWindow);
+
+      windows.insert(0, draggableWindow);
+
+      onUpdate();
+
+    });
+
+
+    draggableWindow.childWidget.setListener(WindowListener(
+        onClose: (window){
+          windows.remove(draggableWindow);
+          onUpdate();
+        }));
+
+    windows.add(draggableWindow);
+
+    onUpdate();
+  }
+  void startPainterApp(){
+
+    var key = UniqueKey();
+    var appKey = GlobalKey();
+
+    final draggableWindow =  DraggableWindow(
+      key: key ,
+      childWidget: PainterApp(title: "Painter",appKey: appKey, key: key,), feedback: () {  },);
 
     draggableWindow.setListener((){
 
