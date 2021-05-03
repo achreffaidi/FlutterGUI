@@ -3,8 +3,8 @@ import 'package:mywebsite/Util/fileManager/fileNode.dart';
 
 class CustomFileImage extends FileNode{
 
-  String url;
+  String path;
 
-  CustomFileImage(String name,this.url) : super(name, FileType.PICTURE);
+  CustomFileImage(String name,this.path) : super(name, FileType.PICTURE);
 
 }

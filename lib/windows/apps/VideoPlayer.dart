@@ -36,7 +36,7 @@ class _VideoPlayerState extends ApplicationState {
 
   _VideoPlayerState(String videoUrl){
     _controller = VideoPlayerController.network(
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',videoPlayerOptions: VideoPlayerOptions())
+        videoUrl,videoPlayerOptions: VideoPlayerOptions())
       ..initialize().then((_) {
         _sliderMax = _controller.value.duration.inMilliseconds;
         _controller.addListener(() async {

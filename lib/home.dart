@@ -11,6 +11,7 @@ import 'package:mywebsite/extension.dart';
 
 class HomeScreen extends StatefulWidget {
 
+  static late WindowManager windowManager;
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -21,12 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-  late WindowManager _windowManager;
+
 
 
   @override
   void initState() {
-    _windowManager = WindowManager( onUpdate:  (){
+    HomeScreen.windowManager = WindowManager( onUpdate:  (){
       setState(() {
 
     });});
@@ -37,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getPositioned(){
-   return _windowManager.windows.reversed.map((e) => Positioned(
+   return HomeScreen.windowManager.windows.reversed.map((e) => Positioned(
      key: e.key,
         left: e.x,
         top: e.y,
@@ -77,15 +78,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _onDockerItemClicked(DockItem item) {
     if(item.fileType == FileType.APP_CALCULATOR){
-      _windowManager.startCalculatorApp();
-    }else if(item.fileType == FileType.PDF) {
-      _windowManager.startPdfApp();
+      HomeScreen.windowManager.startCalculatorApp();
     }else if(item.fileType == FileType.APP_PAINTER) {
-      _windowManager.startPainterApp();
+      HomeScreen.windowManager.startPainterApp();
     }else if(item.fileType == FileType.APP_FILE_MANAGER){
-      _windowManager.startFolderApp();
+      HomeScreen.windowManager.startFolderApp();
     }else{
-      _windowManager.startVideoApp("h3uBr0CCm58");
+      HomeScreen.windowManager.startVideoApp("h3uBr0CCm58");
     }
   }
 }

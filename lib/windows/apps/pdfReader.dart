@@ -18,8 +18,9 @@ import '../WindowListener.dart';
 
 
 class PdfReaderApp extends Application {
-  PdfReaderApp( { Key? key,GlobalKey? appKey, String? title,  WindowListener? listener }) : super(key: key,appKey: appKey ,title: title,listener: listener);
+  PdfReaderApp( { Key? key,GlobalKey? appKey, String? title,  WindowListener? listener, required this.path }) : super(key: key,appKey: appKey ,title: title,listener: listener);
 
+  String path;
 
   @override
   double getHeight() {
@@ -32,10 +33,19 @@ class PdfReaderApp extends Application {
   }
 
   @override
-  _PdfReaderAppState createState() => _PdfReaderAppState();
+  _PdfReaderAppState createState() => _PdfReaderAppState(path);
 }
 
 class _PdfReaderAppState extends ApplicationState {
+  String path;
+  late PdfController pdfController;
+  _PdfReaderAppState(this.path){
+     pdfController = PdfController(
+      viewportFraction: 1,
+      document: PdfDocument.openAsset(path),
+    );
+  }
+
 
 
 
@@ -53,10 +63,7 @@ class _PdfReaderAppState extends ApplicationState {
     );
   }
 
-  final pdfController = PdfController(
-    viewportFraction: 1,
-    document: PdfDocument.openAsset("assets/resume.pdf"),
-  );
+
 
 
   

@@ -4,6 +4,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mywebsite/Util/fileManager/files/fileManager.dart';
+import 'package:mywebsite/windows/apps/PhotoPreview.dart';
 import 'package:mywebsite/windows/apps/VideoPlayer.dart';
 import 'package:mywebsite/windows/apps/fileSystem.dart';
 import 'package:mywebsite/windows/apps/pdfReader.dart';
@@ -40,12 +41,12 @@ class WindowManager{
 
   
   
-  void startPdfApp(){
+  void startPdfApp(String path){
 
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(PdfReaderApp(title: "Pdf Reader",appKey: appKey,key: key,));
+    generateSimpleDraggableWindow(PdfReaderApp(title: "Pdf Reader",appKey: appKey,key: key,path: path,));
   }
   void startPainterApp(){
 
@@ -69,7 +70,16 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(VideoPlayerApp(title: "Folder App",appKey: appKey, key: key,videoUrl: url));
+    generateSimpleDraggableWindow(VideoPlayerApp(title: "Player",appKey: appKey, key: key,videoUrl: url));
+
+  }
+
+  void startPhotoPreviewApp(String path){
+
+    var key = UniqueKey();
+    var appKey = GlobalKey();
+
+    generateSimpleDraggableWindow(PhotoPreviewApp(title: "Photo Preview",appKey: appKey, key: key ,path: path));
 
   }
 

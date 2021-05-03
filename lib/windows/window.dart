@@ -245,11 +245,16 @@ abstract class ApplicationState extends State<Application> {
 
   _getBody() {
     return Container(
-        child: ClipRRect(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10)),
-            child: getApp()));
+        child: GestureDetector(
+          onTap:(){
+            widget.callback!(0, 0);
+          },
+          child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
+              child: getApp()),
+        ));
   }
 
 

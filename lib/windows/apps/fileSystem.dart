@@ -6,11 +6,14 @@ import 'package:flutter_treeview/tree_view.dart';
 import 'package:mywebsite/Util/fileManager/fileIconManager.dart';
 import 'package:mywebsite/Util/fileManager/fileNode.dart';
 import 'package:mywebsite/Util/fileManager/files/CustomFileImage.dart';
+import 'package:mywebsite/Util/fileManager/files/CustomFilePDF.dart';
+import 'package:mywebsite/Util/fileManager/files/CustomFileVideo.dart';
 import 'package:mywebsite/Util/fileManager/files/fileManager.dart';
 import 'package:mywebsite/Util/fileManager/files/Folder.dart';
 import 'package:mywebsite/windows/window.dart';
 import 'package:reorderables/reorderables.dart';
 
+import '../../home.dart';
 import '../WindowListener.dart';
 
 
@@ -139,7 +142,17 @@ var column = Column(
           if(e.fileType == FileType.FOLDER){
             stack.insert(0, e as Folder);
             updateTiles();
+          }else
+            if(e.fileType==FileType.VIDEO){
+              HomeScreen.windowManager.startVideoApp((e as CustomFileVideo).path);
+            }
+          else if(e.fileType==FileType.PICTURE){
+          HomeScreen.windowManager.startPhotoPreviewApp("assets/photos/${(e as CustomFileImage).path}");
           }
+            else if(e.fileType==FileType.PDF){
+              HomeScreen.windowManager.startPdfApp("assets/pdf/${(e as CustomFilePDF).path}");
+            }
+
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -160,7 +173,18 @@ var column = Column(
 
   _getImage(FileNode e) {
     if(e.fileType==FileType.PICTURE){
-     return Image.network((e as CustomFileImage).url);
+      return ClipRRect(
+          borderRadius: BorderRadius.all(
+          Radius.circular(10),
+             ),
+          child: Image.asset("assets/photos/${(e as CustomFileImage).path}"));
+    }
+    if(e.fileType==FileType.VIDEO){
+      return ClipRRect(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+          child: Image.asset("assets/thumbnails/${(e as CustomFileVideo).thumbnail}"));
     }
 
     return     Image.asset(IconManager.getIconPath(e.fileType));

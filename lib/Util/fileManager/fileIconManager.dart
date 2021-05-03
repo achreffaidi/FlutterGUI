@@ -9,13 +9,14 @@ class IconManager{
       case FileType.APP_PAINTER :  return  getPath("painter");
       case FileType.APP_FILE_MANAGER :  return  getPath("folder");
       case FileType.FOLDER :  return  getPath("folder");
+      case FileType.VIDEO :  return  getPath("video");
       default: return getPath("photos");
     }
 
   }
 
   static String getPath(String fileName){
-    return "assets/$fileName.png";
+    return "assets/icons/$fileName.png";
   }
 }
 
