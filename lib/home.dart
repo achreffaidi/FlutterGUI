@@ -84,6 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
       _windowManager.startPainterApp();
     }else if(item.fileType == FileType.APP_FILE_MANAGER){
       _windowManager.startFolderApp();
+    }else{
+      _windowManager.startVideoApp("h3uBr0CCm58");
     }
   }
 }

@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:mywebsite/Util/fileManager/fileIconManager.dart';
+import 'package:mywebsite/Util/fileManager/fileNode.dart';
+import 'package:mywebsite/Util/fileManager/files/CustomFileImage.dart';
 import 'package:mywebsite/Util/fileManager/files/fileManager.dart';
 import 'package:mywebsite/Util/fileManager/files/Folder.dart';
 import 'package:mywebsite/windows/window.dart';
@@ -135,7 +137,7 @@ var column = Column(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(height: 80, width: 80,child: Image.asset(IconManager.getIconPath(e.fileType)),),
+            Container(height: 80, width: 80,child: _getImage(e),),
             Text(e.name)
           ],
         ),
@@ -147,5 +149,13 @@ var column = Column(
   void _onBackClicked() {
       stack.removeAt(0);
       updateTiles();
+  }
+
+  _getImage(FileNode e) {
+    if(e.fileType==FileType.PICTURE){
+     return Image.network((e as CustomFileImage).url);
+    }
+
+    return     Image.asset(IconManager.getIconPath(e.fileType));
   }
 }

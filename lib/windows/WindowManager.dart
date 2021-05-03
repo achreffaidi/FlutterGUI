@@ -4,6 +4,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mywebsite/Util/fileManager/files/fileManager.dart';
+import 'package:mywebsite/windows/apps/VideoPlayer.dart';
 import 'package:mywebsite/windows/apps/fileSystem.dart';
 import 'package:mywebsite/windows/apps/pdfReader.dart';
 import 'package:mywebsite/windows/draggableWindow.dart';
@@ -61,6 +62,14 @@ class WindowManager{
     var appKey = GlobalKey();
 
     generateSimpleDraggableWindow(FolderApp(title: "Folder App",appKey: appKey, key: key,currentFolder: FileManager.getMainFolder(),));
+
+  }
+  void startVideoApp(String url){
+
+    var key = UniqueKey();
+    var appKey = GlobalKey();
+
+    generateSimpleDraggableWindow(VideoPlayerApp(title: "Folder App",appKey: appKey, key: key,videoUrl: url));
 
   }
 
