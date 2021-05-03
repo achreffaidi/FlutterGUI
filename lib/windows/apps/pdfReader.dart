@@ -57,7 +57,7 @@ class _PdfReaderAppState extends ApplicationState {
   }
 
   @override
-  double? getWidth() {
+  double getWidth() {
     return 550;
   }
 

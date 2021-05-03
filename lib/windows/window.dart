@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cursor/flutter_cursor.dart';
 import 'package:mywebsite/windows/WindowListener.dart';
 
 abstract class Application extends StatefulWidget {
@@ -23,9 +24,9 @@ abstract class Application extends StatefulWidget {
 
 abstract class ApplicationState extends State<Application> {
 
-  late double? windowWidth ;
-  late double? windowHeight ;
-
+  late double windowWidth ;
+  late double windowHeight ;
+  var headerHeight = 30.0;
 
   @override
   void initState() {
@@ -42,40 +43,195 @@ abstract class ApplicationState extends State<Application> {
    
 
     return Container(
+      height: windowHeight+headerHeight,
+      width:  windowWidth,
       key: widget.appKey,
-      child: Container(
-        decoration: BoxDecoration(
-          //Here goes the same radius, u can put into a var or function
-          borderRadius:
-          BorderRadius.all(Radius.circular(10)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x54000000),
-              spreadRadius:4,
-              blurRadius: 5,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                //Here goes the same radius, u can put into a var or function
+                borderRadius:
+                BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x54000000),
+                    spreadRadius:4,
+                    blurRadius: 5,
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  _getHeader(),
+                  _getBody(),
+                ],
+              ),
             ),
-          ],
-        ),
-        child: Column(
-          children: [
-            _getHeader(),
-            _getBody(),
-          ],
-        ),
+          ),
+
+
+          Positioned(
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: GestureDetector(
+
+                onHorizontalDragUpdate: _onHorizontalDragRight,
+                child:
+                MouseRegion(
+                  cursor: SystemMouseCursors.resizeLeftRight,
+                  opaque: true,
+                  child: Container(
+                    width: 4,
+                  ),
+                )
+                ,
+              )),
+          Positioned(
+              left: 0,
+              top: 0,
+              bottom: 0,
+              child:
+
+              GestureDetector(
+
+                onHorizontalDragUpdate: _onHorizontalDragLeft,
+                child:
+                MouseRegion(
+                  cursor: SystemMouseCursors.resizeLeftRight,
+                  opaque: true,
+                  child: Container(
+                    width: 4,
+                  ),
+                )
+                ,
+              )
+
+            ),
+          Positioned(
+              left: 0,
+              top: 0,
+              right: 0,
+              child:  GestureDetector(
+
+                onVerticalDragUpdate: _onHorizontalDragTop,
+                child:
+                MouseRegion(
+                  cursor: SystemMouseCursors.resizeUpDown,
+                  opaque: true,
+                  child: Container(
+                    height: 4,
+                  ),
+                )
+                ,
+              )),
+          Positioned(
+              left: 0,
+              bottom: 0,
+              right: 0,
+              child: GestureDetector(
+
+                onVerticalDragUpdate: _onHorizontalDragBottom,
+                child:
+                MouseRegion(
+                  cursor: SystemMouseCursors.resizeUpDown,
+                  opaque: true,
+                  child: Container(
+                    height: 4,
+                  ),
+                )
+                ,
+              )),
+
+          Positioned(
+              bottom: 0,
+              right: 0,
+              child: GestureDetector(
+
+                onPanUpdate: _onHorizontalDragBottomRight,
+                child:
+                MouseRegion(
+                  cursor: SystemMouseCursors.resizeUpLeftDownRight,
+                  opaque: true,
+                  child: Container(
+                    height: 6,
+                    width: 6,
+                  ),
+                )
+                ,
+              )),
+          Positioned(
+              bottom: 0,
+              left: 0,
+              child: GestureDetector(
+
+                onPanUpdate: _onHorizontalDragBottomLeft,
+                child:
+                MouseRegion(
+                  cursor: SystemMouseCursors.resizeUpRightDownLeft,
+                  opaque: true,
+                  child: Container(
+                    height: 6,
+                    width: 6,
+                  ),
+                )
+                ,
+              )),
+          Positioned(
+              top: 0,
+              right: 0,
+              child: GestureDetector(
+
+                onPanUpdate: _onHorizontalDragTopRight,
+                child:
+                MouseRegion(
+                  cursor: SystemMouseCursors.resizeUpRightDownLeft,
+                  opaque: true,
+                  child: Container(
+                    height: 6,
+                    width: 6,
+                  ),
+                )
+                ,
+              )),
+          Positioned(
+              left: 0,
+              top: 0,
+              child: GestureDetector(
+
+                onPanUpdate: _onHorizontalDragTopLeft,
+                child:
+                MouseRegion(
+                  cursor: SystemMouseCursors.resizeUpLeftDownRight,
+                  opaque: true,
+                  child: Container(
+                    height: 6,
+                    width: 6,
+                  ),
+                )
+                ,
+              )),
+
+        ],
       ),
     );
   }
 
   _getHeader() {
+
     return GestureDetector(
         onPanUpdate: (tapInfo) {
-          setState(() {
-            widget.callback!(tapInfo.delta.dx,tapInfo.delta.dy);
-
-          });},
+          widget.callback!(tapInfo.delta.dx,tapInfo.delta.dy);
+          },
       child: Container(
         width: windowWidth,
-        height: 30,
+        height: headerHeight,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -124,8 +280,8 @@ abstract class ApplicationState extends State<Application> {
             child: getApp()));
   }
 
-  double? getWidth();
-  double? getHeight();
+  double getWidth();
+  double getHeight();
   Widget getApp();
 
 
@@ -153,4 +309,74 @@ abstract class ApplicationState extends State<Application> {
 
   }
 
+
+  void _onHorizontalDragLeft(DragUpdateDetails details) {
+
+
+    setState(() {
+      windowWidth -= details.delta.dx;
+      if(windowWidth< getWidth()){
+        windowWidth = getWidth();
+      }else{
+        widget.callback!(details.delta.dx, 0 );
+      }
+    });
+
+  }
+  void _onHorizontalDragRight(DragUpdateDetails details) {
+
+
+    setState(() {
+      windowWidth += details.delta.dx;
+      if(windowWidth< getWidth()){
+        windowWidth = getWidth();
+      }
+    });
+
+  }
+
+  void _onHorizontalDragBottom(DragUpdateDetails details) {
+
+
+    setState(() {
+      windowHeight += details.delta.dy;
+      if(windowHeight< getHeight()){
+        windowHeight = getHeight();
+      }
+    });
+
+  }
+
+  void _onHorizontalDragTop(DragUpdateDetails details) {
+
+
+    setState(() {
+      windowHeight -= details.delta.dy;
+      if(windowHeight< getHeight()){
+        windowHeight = getHeight();
+      }else{
+        widget.callback!(0, details.delta.dy );
+      }
+    });
+
+  }
+  
+  
+
+  void _onHorizontalDragBottomRight(DragUpdateDetails details) {
+    _onHorizontalDragRight(details);
+    _onHorizontalDragBottom(details);
+  }
+  void _onHorizontalDragBottomLeft(DragUpdateDetails details) {
+    _onHorizontalDragLeft(details);
+    _onHorizontalDragBottom(details);
+  }
+  void _onHorizontalDragTopRight(DragUpdateDetails details) {
+    _onHorizontalDragRight(details);
+    _onHorizontalDragTop(details);
+  }
+  void _onHorizontalDragTopLeft(DragUpdateDetails details) {
+    _onHorizontalDragLeft(details);
+    _onHorizontalDragTop(details);
+  }
 }
