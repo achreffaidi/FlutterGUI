@@ -63,6 +63,7 @@ class _VideoPlayerState extends ApplicationState {
 
   @override
   Widget getApp(){
+
     return Container(
       height: widget.windowHeight,
       width: widget.windowWidth,

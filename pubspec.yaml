@@ -37,6 +37,7 @@ dependencies:
   assets_audio_player: ^3.0.3+2
   reorderables: ^0.4.1
   video_player: ^2.1.1
+  flutter_treeview: ^0.9.0+1
 
 
 dev_dependencies:

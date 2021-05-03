@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
+import 'package:flutter_treeview/tree_view.dart';
 import 'package:mywebsite/Util/fileManager/fileIconManager.dart';
 import 'package:mywebsite/Util/fileManager/fileNode.dart';
 import 'package:mywebsite/Util/fileManager/files/CustomFileImage.dart';
@@ -39,9 +40,13 @@ class FolderApp extends Application {
 class _FolderAppState extends ApplicationState {
 
   List<Folder> stack = List.empty(growable: true);
+  List<Node> nodes = List.empty(growable: true);
+  late TreeViewController _treeViewController ;
 
   _FolderAppState(Folder currentFolder){
     stack.add(currentFolder);
+    nodes = [convert(stack.first,isExpanded: true)];
+    _treeViewController = TreeViewController(children: nodes);
   }
 
   var _panelWidth = 150.0;
@@ -87,6 +92,7 @@ var column = Column(
               IconButton(onPressed: (stack.length>1)? _onBackClicked : null, icon: Icon(Icons.arrow_back_ios))
             ],
           ),
+          title: Text(getPath(stack.last,stack.first)),
         ),
         body: Container(
           color: Colors.white,
@@ -98,6 +104,7 @@ var column = Column(
                 height: widget.windowHeight,
                 child: Card(
                   color: Colors.blueGrey,
+                  child: getPane()
                 ),
               ),
               Container(
@@ -158,4 +165,46 @@ var column = Column(
 
     return     Image.asset(IconManager.getIconPath(e.fileType));
   }
+
+
+  getPane() {
+    return TreeView(
+      allowParentSelect: true,
+      controller: _treeViewController,
+      onNodeTap: (key) {
+        Node selectedNode = _treeViewController.getNode(key);
+        stack.insert(0,selectedNode.data) ;
+        updateTiles();
+      },
+    );
+  }
+
+  getPath(Folder folder,Folder dist){
+    if(folder==dist) return folder.name;
+    for(var f in folder.getSubFolders()){
+
+      var x = getPath(f, dist);
+      if(x!=null){
+        return folder.name + " > "+ x;
+      }
+    }
+    return null;
+  }
+
+ static Node<Folder> convert(Folder folder,{bool isExpanded = false}){
+    List<Node<Folder>> children = [];
+    for(var child in folder.children){
+        if(child.fileType==FileType.FOLDER) children.insert(0, convert(child as Folder));
+    }
+    return Node<Folder>(
+      label: folder.name,
+      data: folder,
+      children: children,
+      expanded: isExpanded,
+      key: folder.hashCode.toString()
+    );
+  }
+
+
+
 }

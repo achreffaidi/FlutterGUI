@@ -7,6 +7,11 @@ class Folder extends FileNode{
 
   Folder(String name,this.children) : super(name, FileType.FOLDER);
 
+  List<Folder> getSubFolders(){
+    List<FileNode> temp = List.from(children);
+    temp.retainWhere((element) => element.fileType==FileType.FOLDER);
+    return temp.map((e) => (e as Folder)).toList();
+  }
 
 
 
