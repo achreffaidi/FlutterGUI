@@ -78,12 +78,12 @@ class _HomeScreenState extends State<HomeScreen> {
   _onDockerItemClicked(DockItem item) {
     if(item.fileType == FileType.APP_CALCULATOR){
       _windowManager.startCalculatorApp();
-    }else if(item.fileType == FileType.APP_FILE_MANAGER) {
+    }else if(item.fileType == FileType.PDF) {
       _windowManager.startPdfApp();
     }else if(item.fileType == FileType.APP_PAINTER) {
       _windowManager.startPainterApp();
-    }else{
-     // _windowManager.startPainterApp();
+    }else if(item.fileType == FileType.APP_FILE_MANAGER){
+      _windowManager.startFolderApp();
     }
   }
 }

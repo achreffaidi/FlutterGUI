@@ -25,7 +25,7 @@ class _DockerState extends State<Docker> {
   List<DockItem> items = [
     DockItem("Calculator", FileType.APP_CALCULATOR),
     DockItem("File Manager", FileType.APP_FILE_MANAGER),
-    DockItem("youtube", FileType.APP_YOUTUBE),
+    DockItem("resume", FileType.PDF),
     DockItem("Painter", FileType.APP_PAINTER),
     DockItem("File Manager", FileType.APP_FILE_MANAGER),
     DockItem("youtube", FileType.APP_YOUTUBE),

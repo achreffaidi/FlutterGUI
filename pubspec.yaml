@@ -35,6 +35,7 @@ dependencies:
   flutter_cursor: ^0.1.3
   screenshot: ^0.3.0
   assets_audio_player: ^3.0.3+2
+  reorderables: ^0.4.1
 
 
 dev_dependencies:
@@ -58,6 +59,7 @@ flutter:
     - assets/folder.png
     - assets/photos.png
     - assets/youtube.png
+    - assets/reader.png
     - assets/resume.pdf
     - assets/painter.png
     - assets/erro.mp3
