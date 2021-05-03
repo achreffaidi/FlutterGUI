@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mywebsite/Docker/dockerItem.dart';
 import 'package:mywebsite/Util/fileManager/fileIconManager.dart';
 import 'package:mywebsite/windows/WindowListener.dart';
-import 'package:mywebsite/docker.dart';
+import 'package:mywebsite/Docker/docker.dart';
 import 'package:mywebsite/windows/WindowManager.dart';
 import 'package:mywebsite/windows/draggableWindow.dart';
 import 'package:mywebsite/windows/window.dart';
@@ -26,9 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    print("INIT");
     _windowManager = WindowManager( onUpdate:  (){
-      print("UPDATE");
       setState(() {
 
     });});
@@ -60,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: 20,
               left: 0,
               right: 0,
-              child: Center(child: GestureDetector(child: Docker(_onDockerItemClicked)).showCursorOnHover))
+              child: Center(child: GestureDetector(child: Docker(_onDockerItemClicked)).showCursorOnHover)),
         ],
       ),
     );
@@ -82,8 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
       _windowManager.startCalculatorApp();
     }else if(item.fileType == FileType.APP_FILE_MANAGER) {
       _windowManager.startPdfApp();
-    }else{
+    }else if(item.fileType == FileType.APP_PAINTER) {
       _windowManager.startPainterApp();
+    }else{
+     // _windowManager.startPainterApp();
     }
   }
 }

@@ -33,6 +33,9 @@ dependencies:
   painter: ^0.4.0
   flutter_colorpicker: ^0.4.0
   flutter_cursor: ^0.1.3
+  screenshot: ^0.3.0
+  assets_audio_player: ^3.0.3+2
+
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +59,8 @@ flutter:
     - assets/photos.png
     - assets/youtube.png
     - assets/resume.pdf
+    - assets/painter.png
+    - assets/erro.mp3
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

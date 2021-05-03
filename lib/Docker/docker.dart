@@ -16,7 +16,7 @@ class Docker extends StatefulWidget {
 
 class _DockerState extends State<Docker> {
 
-  static const rad = 20.0;
+  static const rad = 15.0;
   static const defaultSize = 40.0;
   static const off = 5.0;
   var _offest = 0.0;
@@ -26,15 +26,15 @@ class _DockerState extends State<Docker> {
     DockItem("Calculator", FileType.APP_CALCULATOR),
     DockItem("File Manager", FileType.APP_FILE_MANAGER),
     DockItem("youtube", FileType.APP_YOUTUBE),
-    DockItem("Calculator", FileType.APP_CALCULATOR),
+    DockItem("Painter", FileType.APP_PAINTER),
     DockItem("File Manager", FileType.APP_FILE_MANAGER),
     DockItem("youtube", FileType.APP_YOUTUBE),
     DockItem("Calculator", FileType.APP_CALCULATOR),
     DockItem("File Manager", FileType.APP_FILE_MANAGER),
+    DockItem("Painter", FileType.APP_PAINTER),
     DockItem("youtube", FileType.APP_YOUTUBE),
-    DockItem("Calculator", FileType.APP_CALCULATOR),
-    DockItem("File Manager", FileType.APP_FILE_MANAGER),
-    DockItem("youtube", FileType.APP_YOUTUBE),
+    DockItem("Painter", FileType.APP_PAINTER),
+
 
   ];
 
@@ -47,19 +47,17 @@ class _DockerState extends State<Docker> {
 
           Positioned(
             bottom: 0,
-left: 0,
+            left: 0,
             right: 0,
-            child: Center(
-              child: Container(
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Color.lerp(Colors.blue, Colors.transparent, 0.8),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(rad),
-                      topRight: Radius.circular(rad),
-                      bottomLeft: Radius.circular(rad),
-                      bottomRight: Radius.circular(rad)
-                  ),
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                color: Color.lerp(Colors.black, Colors.transparent, 0.8),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(rad),
+                    topRight: Radius.circular(rad),
+                    bottomLeft: Radius.circular(rad),
+                    bottomRight: Radius.circular(rad)
                 ),
               ),
             ),
@@ -94,7 +92,7 @@ left: 0,
                   onHover: (event){
                     setState(() {
                       _offest = event.position.dx;
-                      currentIndex =  ((_offest-460)/100 ).round();
+                      currentIndex =  (getOffset()).round();
                     });
                   },
                   onExit: (event){
@@ -111,9 +109,12 @@ left: 0,
     );
   }
 
-  double getButtons(int x){
+  double getOffset(){
+    return (_offest-404)/85;
+  }
+
+  double getButtons(int x, double x1){
       if(_offest==0) return 0 ;
-      var x1 = (_offest-460)/100 + 1;
       var z = (x - x1)*(x - x1) - 4 ;
       if(z>0) return 0 ;
       return sqrt(-z)*20;
@@ -121,14 +122,20 @@ left: 0,
   }
 
   List<Widget> getList(){
+    var x1 = getOffset();
     List<Widget> list = [];
     for(int  i = 0 ; i<items.length;i++){
-      var dx = getButtons(i);
+      var dx = getButtons(i,x1);
       list.add(Column(
         children: [
-          i == currentIndex? Card(child: Text(items[i].name)):Container(),
+          i == currentIndex && _offest!= 0? Card(
+              color: Color.lerp(Colors.black, Colors.transparent, 0.5),
+              child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0,horizontal: 8),
+            child: Text(items[i].name,style: TextStyle(color: Colors.white),),
+          )):Container(),
           Container(
-            margin: EdgeInsets.only(bottom: getButtons(i)/3, right: (dx+defaultSize)/5,left: (dx+defaultSize)/5),
+            margin: EdgeInsets.only(bottom: dx/3, right: (dx+defaultSize)/5,left: (dx+defaultSize)/5),
             height:  dx + defaultSize,
             width: dx + defaultSize,
             child: Image.asset(items[i].getIcon())

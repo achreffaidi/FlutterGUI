@@ -14,7 +14,15 @@ class CalculatorApp extends Application {
 
 
    CalculatorApp( { required Key key,GlobalKey? appKey,  String? title,  WindowListener? listener }) : super(key: key,appKey: appKey,title: title,listener: listener);
+   @override
+   double getHeight() {
+     return 250;
+   }
 
+   @override
+   double getWidth() {
+     return 400;
+   }
   
 
   @override
@@ -30,8 +38,8 @@ class _WebViewExampleState extends ApplicationState {
   @override
   Widget getApp(){
     return Container(
-      height: windowHeight,
-      width: windowWidth,
+      height: widget.windowHeight,
+      width: widget.windowWidth,
       child: SimpleCalculator(
         theme: const CalculatorThemeData(
           displayColor: Colors.black,
@@ -41,14 +49,6 @@ class _WebViewExampleState extends ApplicationState {
     );
   }
 
-  @override
-  double getHeight() {
-    return 250;
-  }
 
-  @override
-  double getWidth() {
-    return 400;
-  }
 
 }

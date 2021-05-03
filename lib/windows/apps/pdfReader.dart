@@ -21,6 +21,15 @@ class PdfReaderApp extends Application {
   PdfReaderApp( { Key? key,GlobalKey? appKey, String? title,  WindowListener? listener }) : super(key: key,appKey: appKey ,title: title,listener: listener);
 
 
+  @override
+  double getHeight() {
+    return 800;
+  }
+
+  @override
+  double getWidth() {
+    return 550;
+  }
 
   @override
   _PdfReaderAppState createState() => _PdfReaderAppState();
@@ -35,8 +44,8 @@ class _PdfReaderAppState extends ApplicationState {
   @override
   Widget getApp(){
     return Container(
-      height: windowHeight,
-      width: windowWidth,
+      height: widget.windowHeight,
+      width: widget.windowWidth,
       child: PdfView(
         controller: pdfController,
         scrollDirection: Axis.vertical,
@@ -51,14 +60,6 @@ class _PdfReaderAppState extends ApplicationState {
 
 
   
-  @override
-  double getHeight() {
-    return 800;
-  }
 
-  @override
-  double getWidth() {
-    return 550;
-  }
 
 }

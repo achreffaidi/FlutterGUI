@@ -15,7 +15,16 @@ class PainterApp extends Application {
 
    PainterApp( { required Key key,GlobalKey? appKey,  String? title,  WindowListener? listener }) : super(key: key,appKey: appKey,title: title,listener: listener);
 
-  
+   @override
+   double getHeight() {
+     return 600;
+   }
+
+   @override
+   double getWidth() {
+     return 600;
+   }
+
 
   @override
   _PainterAppState createState() => _PainterAppState();
@@ -30,21 +39,13 @@ class _PainterAppState extends ApplicationState {
   @override
   Widget getApp(){
     return Container(
-      height: windowHeight,
-      width: windowWidth,
+      height: widget.windowHeight,
+      width: widget.windowWidth,
       child: PainterPage(),
     );
   }
 
-  @override
-  double getHeight() {
-    return 600;
-  }
 
-  @override
-  double getWidth() {
-    return 600;
-  }
 
 }
 
