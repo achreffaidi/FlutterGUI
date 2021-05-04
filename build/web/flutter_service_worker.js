@@ -4,8 +4,8 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "version.json": "caa5c9212f882fbb1aeee16f4471b486",
-"index.html": "31408e9eaf3b66feca652b25727d06cf",
-"/": "31408e9eaf3b66feca652b25727d06cf",
+"index.html": "9b150eb1d6ba772f8595618fc6e1ea19",
+"/": "9b150eb1d6ba772f8595618fc6e1ea19",
 "main.dart.js": "f1b8b39f51496abc754fe5c29d89755f",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
@@ -17,9 +17,6 @@ const RESOURCES = {
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
 "assets/fonts/MaterialIcons-Regular.otf": "4e6447691c9509f7acdbf8a931a85ca1",
 "assets/assets/pdf/resume.pdf": "0a11c43ed18a8abf596962f81fec9ad0",
-"assets/assets/reader.png": "598935eba8fe7b3a7b51d6eb0697cbcc",
-"assets/assets/folder.png": "3cb7cb114a9f5c89a4b1c88a11146d1c",
-"assets/assets/calculator.png": "510a68a66418832788930162c8dbb512",
 "assets/assets/erro.mp3": "08d42a52837e48855b225d93128b3647",
 "assets/assets/icons/reader.png": "598935eba8fe7b3a7b51d6eb0697cbcc",
 "assets/assets/icons/folder.png": "ef75bf7378302ebcc1dc8ac11754f2b5",
@@ -28,12 +25,9 @@ const RESOURCES = {
 "assets/assets/icons/painter.png": "41be8c8d9af4aabf019563e7f2ed0fb4",
 "assets/assets/icons/youtube.png": "f745f24000d62081801d123eb169e55e",
 "assets/assets/icons/photos.png": "596623c0318c77606bec9a2fe9e66726",
-"assets/assets/painter.png": "41be8c8d9af4aabf019563e7f2ed0fb4",
-"assets/assets/youtube.png": "f745f24000d62081801d123eb169e55e",
 "assets/assets/photos/1.jpeg": "0821612cc40d6fdf4a846006337f45f9",
 "assets/assets/photos/2.jpeg": "5972afae75da666841a42168386c88b0",
 "assets/assets/photos/3.jpeg": "56af81bf527bda19ce93d511e4409819",
-"assets/assets/photos.png": "596623c0318c77606bec9a2fe9e66726",
 "assets/assets/thumbnails/ElephantsDream.jpeg": "308469b55d6b7bfab24934916c04caa4",
 "assets/assets/thumbnails/TearsOfSteel.jpeg": "7b3e91f9a524443f841374814b3cae04",
 "assets/assets/thumbnails/BigBuckBunny.jpeg": "95eed3e1019b934429ea2d7402a9b6ca"
