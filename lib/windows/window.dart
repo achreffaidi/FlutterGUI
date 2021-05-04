@@ -3,12 +3,14 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cursor/flutter_cursor.dart';
+import 'package:mywebsite/Util/fileManager/consts/colors.dart';
 import 'package:mywebsite/windows/WindowListener.dart';
 import 'package:screenshot/screenshot.dart';
 
 abstract class Application extends StatefulWidget {
   String? title;
   WindowListener? listener;
+  late VoidCallback? draggableOnResizeListener;
   GlobalKey? appKey;
   Application({Key? key, this.appKey, this.title, this.listener})
       : super(key: key){
@@ -17,9 +19,11 @@ abstract class Application extends StatefulWidget {
   }
 
   Function(double, double)? callback;
-
   late double windowWidth ;
+  late double prevWindowWidth ;
   late double windowHeight ;
+  late double prevWindowHeight ;
+  bool isFullScreen = false;
   var headerHeight = 30.0;
   bool canResize = true;
 
@@ -29,21 +33,32 @@ abstract class Application extends StatefulWidget {
   get currentWidth => windowWidth;
   get currentHeight => windowHeight+headerHeight;
 
+
+
   void setListener(WindowListener listener) {
     this.listener = listener;
   }
 
-
 }
 
-abstract class ApplicationState extends State<Application> {
+abstract class ApplicationState extends State<Application> with SingleTickerProviderStateMixin {
 
+  late AnimationController animationController;
+  late Animation animation;
 
-
+  var dx = 0.0;
+  var dy = 0.0 ;
   @override
   void initState() {
     super.initState();
-
+    animationController = AnimationController(vsync: this,duration: Duration(milliseconds: 500));
+    animation = IntTween(begin: 0,end: 100).animate(CurvedAnimation(parent: animationController, curve: Curves.easeOut));
+    animation.addListener(() {
+      setState(() {
+          widget.windowWidth = widget.prevWindowWidth + animation.value*dx/100;
+          widget.windowHeight = widget.prevWindowHeight + animation.value*dy/100;
+      });
+    });
   }
 
   @override
@@ -198,6 +213,7 @@ abstract class ApplicationState extends State<Application> {
 
   _getHeader() {
     return GestureDetector(
+      onDoubleTap: _onResizeButtonClicked,
       onPanUpdate: (tapInfo) {
         widget.callback!(tapInfo.delta.dx, tapInfo.delta.dy);
       },
@@ -205,7 +221,7 @@ abstract class ApplicationState extends State<Application> {
           width: widget.windowWidth,
           height: widget.headerHeight,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Resources.WINDOW_HEADER_COLOR,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
@@ -230,7 +246,8 @@ abstract class ApplicationState extends State<Application> {
                       widget.listener!.onAppCrash!(widget);
                     }
                     ),
-                    _getCircleButton(Colors.green, Icons.fullscreen)
+                    _getCircleButton(Colors.green, Icons.fullscreen,callback: _onResizeButtonClicked
+                    )
                   ],
                 ),
               ),
@@ -243,6 +260,32 @@ abstract class ApplicationState extends State<Application> {
     );
   }
 
+  void _onResizeButtonClicked() {
+    widget.draggableOnResizeListener!();
+    
+     if(widget.isFullScreen){
+    
+       dx = (widget.windowWidth - widget.prevWindowWidth);
+       dy = (widget.windowHeight - widget.prevWindowHeight) ;
+       widget.isFullScreen = false;
+       animationController.animateTo(0);
+    
+    
+     }else{
+    
+        widget.prevWindowWidth = widget.windowWidth ;
+        widget.prevWindowHeight = widget.windowHeight ;
+        dx = (MediaQuery.of(context).size.width - widget.prevWindowWidth);
+        dy = (MediaQuery.of(context).size.height - widget.headerHeight - widget.prevWindowHeight) ;
+        animationController.forward();
+        widget.isFullScreen = true;
+    
+     }
+    
+    
+    widget.listener!.onResize!(widget);
+  }
+
   _getBody() {
     return Container(
         child: GestureDetector(
@@ -253,7 +296,9 @@ abstract class ApplicationState extends State<Application> {
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10)),
-              child: getApp()),
+              child: Container(
+                  color: Resources.WINDOW_BODY_COLOR,
+                  child: getApp())),
         ));
   }
 
@@ -284,6 +329,7 @@ abstract class ApplicationState extends State<Application> {
   void _onHorizontalDragLeft(DragUpdateDetails details) {
 
     if(!widget.canResize) return;
+    widget.isFullScreen = false;
     setState(() {
       widget.windowWidth -= details.delta.dx;
       if (widget.windowWidth < widget.getWidth()) {
@@ -296,6 +342,7 @@ abstract class ApplicationState extends State<Application> {
 
   void _onHorizontalDragRight(DragUpdateDetails details) {
     if(!widget.canResize) return;
+    widget.isFullScreen = false;
     setState(() {
       widget.windowWidth += details.delta.dx;
       if (widget.windowWidth < widget.getWidth()) {
@@ -306,6 +353,7 @@ abstract class ApplicationState extends State<Application> {
 
   void _onHorizontalDragBottom(DragUpdateDetails details) {
     if(!widget.canResize) return;
+    widget.isFullScreen = false;
     setState(() {
       widget.windowHeight += details.delta.dy;
       if (widget.windowHeight < widget.getHeight()) {
@@ -316,6 +364,7 @@ abstract class ApplicationState extends State<Application> {
 
   void _onHorizontalDragTop(DragUpdateDetails details) {
     if(!widget.canResize) return;
+    widget.isFullScreen = false;
     setState(() {
       widget.windowHeight -= details.delta.dy;
       if (widget.windowHeight < widget.getHeight()) {

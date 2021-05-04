@@ -139,7 +139,7 @@ class WindowManager{
         );
 
         assetsAudioPlayer.play();
-      }
+      },
 
     ));
 

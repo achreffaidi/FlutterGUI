@@ -14,10 +14,13 @@ class DraggableWindow extends StatefulWidget {
   VoidCallback? onCrash;
   double x = 0 ;
   double y = 0;
+  late double prevX = 0 ;
+  late double prevY = 0 ;
+
   bool isCrashed = false;
   Key key = UniqueKey();
   Uint8List? screenshot;
-
+  bool isFullScreen = false;
 
 
   DraggableWindow({Key? key, required this.childWidget,required this.feedback,this.onCrash}) : super(key: key);
@@ -45,19 +48,58 @@ class DraggableWindow extends StatefulWidget {
   DraggableWindowState createState() => DraggableWindowState();
 }
 
-class DraggableWindowState extends State<DraggableWindow> {
+class DraggableWindowState extends State<DraggableWindow> with SingleTickerProviderStateMixin {
 
+
+  late AnimationController animationController;
+  late Animation animation;
+  var dx = 0.0;
+  var dy = 0.0 ;
 
   @override
   void initState() {
     super.initState();
+    widget.childWidget.draggableOnResizeListener = onFullScreenClick;
     widget.childWidget.callback = (x,y){
+      widget.isFullScreen = false;
       setState(() {
         widget.x += x;
         widget.y += y;
         widget.feedback();
       });
     };
+
+    animationController = AnimationController(vsync: this,duration: Duration(milliseconds: 500));
+    animation = IntTween(begin: 0,end: 100).animate(CurvedAnimation(parent: animationController, curve: Curves.easeOut));
+    animation.addListener(() {
+
+
+          widget.x = widget.prevX - animation.value*dx/100;
+          widget.y = widget.prevY - animation.value*dy/100;
+
+     widget.feedback();
+    });
+
+  }
+
+  void onFullScreenClick(){
+    if(widget.isFullScreen){
+      dx =   widget.prevX;
+      dy =  widget.prevY;
+      animationController.animateTo(0);
+      widget.isFullScreen = false;
+    }else{
+      widget.prevX = widget.x;
+      widget.prevY = widget.y;
+
+      dx =  widget.x ;
+      dy = widget.y ;
+
+      animationController.forward();
+
+      widget.isFullScreen = true;
+    }
+    widget.feedback();
   }
 
 
