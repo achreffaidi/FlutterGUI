@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mywebsite/Util/fileManager/files/Folder.dart';
 import 'package:mywebsite/Util/fileManager/files/fileManager.dart';
 import 'package:mywebsite/windows/apps/PhotoPreview.dart';
 import 'package:mywebsite/windows/apps/VideoPlayer.dart';
@@ -57,12 +58,12 @@ class WindowManager{
 
   }
 
-  void startFolderApp(){
+  void startFolderApp({Folder? folder}){
 
     var key = UniqueKey();
     var appKey = GlobalKey();
-
-    generateSimpleDraggableWindow(FolderApp(title: "Folder App",appKey: appKey, key: key,currentFolder: FileManager.getMainFolder(),));
+    if(folder==null)folder = FileManager.root;
+    generateSimpleDraggableWindow(FolderApp(title: "Folder App",appKey: appKey, key: key,currentFolder: folder));
 
   }
   void startVideoApp(String url){

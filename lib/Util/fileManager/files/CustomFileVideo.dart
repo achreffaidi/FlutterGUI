@@ -3,9 +3,9 @@ import 'package:mywebsite/Util/fileManager/fileNode.dart';
 
 class CustomFileVideo extends FileNode{
 
-  String path;
-  String thumbnail;
+  final String path;
+  final String thumbnail;
 
-  CustomFileVideo(String name,this.path,this.thumbnail) : super(name, FileType.VIDEO);
+  const CustomFileVideo(String name,this.path,this.thumbnail) : super(name, FileType.VIDEO);
 
 }

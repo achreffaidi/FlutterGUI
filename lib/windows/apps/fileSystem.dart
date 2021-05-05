@@ -34,6 +34,42 @@ class FolderApp extends Application {
    double getWidth() {
      return 800;
    }
+
+   static getImage(FileNode e) {
+     if(e.fileType==FileType.PICTURE){
+       return ClipRRect(
+           borderRadius: BorderRadius.all(
+             Radius.circular(10),
+           ),
+           child: Image.asset("assets/photos/${(e as CustomFileImage).path}"));
+     }
+     if(e.fileType==FileType.VIDEO){
+       return ClipRRect(
+           borderRadius: BorderRadius.all(
+             Radius.circular(10),
+           ),
+           child: Image.asset("assets/thumbnails/${(e as CustomFileVideo).thumbnail}"));
+     }
+
+     return     Image.asset(IconManager.getIconPath(e.fileType));
+   }
+
+
+
+
+   static Node<Folder> convert(Folder folder,{bool isExpanded = false}){
+     List<Node<Folder>> children = [];
+     for(var child in folder.children){
+       if(child.fileType==FileType.FOLDER) children.insert(0, convert(child as Folder));
+     }
+     return Node<Folder>(
+         label: folder.name,
+         data: folder,
+         children: children,
+         expanded: isExpanded,
+         key: folder.hashCode.toString()
+     );
+   }
   
 
   @override
@@ -48,7 +84,7 @@ class _FolderAppState extends ApplicationState {
 
   _FolderAppState(Folder currentFolder){
     stack.add(currentFolder);
-    nodes = [convert(stack.first,isExpanded: true)];
+    nodes = [FolderApp.convert(stack.first,isExpanded: true)];
     _treeViewController = TreeViewController(children: nodes);
   }
 
@@ -157,7 +193,7 @@ var column = Column(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(height: 80, width: 80,child: _getImage(e),),
+            Container(height: 80, width: 80,child: FolderApp.getImage(e),),
             Text(e.name)
           ],
         ),
@@ -169,25 +205,6 @@ var column = Column(
   void _onBackClicked() {
       stack.removeAt(0);
       updateTiles();
-  }
-
-  _getImage(FileNode e) {
-    if(e.fileType==FileType.PICTURE){
-      return ClipRRect(
-          borderRadius: BorderRadius.all(
-          Radius.circular(10),
-             ),
-          child: Image.asset("assets/photos/${(e as CustomFileImage).path}"));
-    }
-    if(e.fileType==FileType.VIDEO){
-      return ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-          child: Image.asset("assets/thumbnails/${(e as CustomFileVideo).thumbnail}"));
-    }
-
-    return     Image.asset(IconManager.getIconPath(e.fileType));
   }
 
 
@@ -214,21 +231,6 @@ var column = Column(
     }
     return null;
   }
-
- static Node<Folder> convert(Folder folder,{bool isExpanded = false}){
-    List<Node<Folder>> children = [];
-    for(var child in folder.children){
-        if(child.fileType==FileType.FOLDER) children.insert(0, convert(child as Folder));
-    }
-    return Node<Folder>(
-      label: folder.name,
-      data: folder,
-      children: children,
-      expanded: isExpanded,
-      key: folder.hashCode.toString()
-    );
-  }
-
 
 
 }

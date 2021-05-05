@@ -2,8 +2,8 @@ import 'package:mywebsite/Util/fileManager/fileIconManager.dart';
 
 abstract class FileNode{
 
-  String name;
-  FileType fileType;
+  final String name;
+  final FileType fileType;
 
-  FileNode(this.name, this.fileType);
+  const FileNode(this.name, this.fileType);
 }

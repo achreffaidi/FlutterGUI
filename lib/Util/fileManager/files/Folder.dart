@@ -3,9 +3,9 @@ import 'package:mywebsite/Util/fileManager/fileNode.dart';
 
 class Folder extends FileNode{
 
-  List<FileNode> children;
+  final List<FileNode> children;
 
-  Folder(String name,this.children) : super(name, FileType.FOLDER);
+  const Folder(String name,this.children) : super(name, FileType.FOLDER);
 
   List<Folder> getSubFolders(){
     List<FileNode> temp = List.from(children);

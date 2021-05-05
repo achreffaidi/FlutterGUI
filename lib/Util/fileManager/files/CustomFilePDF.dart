@@ -3,8 +3,8 @@ import 'package:mywebsite/Util/fileManager/fileNode.dart';
 
 class CustomFilePDF extends FileNode{
 
-  String path;
+  final String path;
 
-  CustomFilePDF(String name,this.path) : super(name, FileType.PDF);
+  const CustomFilePDF(String name,this.path) : super(name, FileType.PDF);
 
 }
