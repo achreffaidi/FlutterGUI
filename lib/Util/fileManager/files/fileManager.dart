@@ -1,7 +1,7 @@
-import 'package:mywebsite/Util/fileManager/files/CustomFileHTML.dart';
-import 'package:mywebsite/Util/fileManager/files/CustomFileImage.dart';
-import 'package:mywebsite/Util/fileManager/files/CustomFilePDF.dart';
-import 'package:mywebsite/Util/fileManager/files/Folder.dart';
+import 'package:flutterOs/Util/fileManager/files/CustomFileHTML.dart';
+import 'package:flutterOs/Util/fileManager/files/CustomFileImage.dart';
+import 'package:flutterOs/Util/fileManager/files/CustomFilePDF.dart';
+import 'package:flutterOs/Util/fileManager/files/Folder.dart';
 
 import 'CustomFileVideo.dart';
 

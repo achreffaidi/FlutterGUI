@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
-import 'package:mywebsite/windows/window.dart';
+import 'package:flutterOs/windows/window.dart';
 import 'package:video_player/video_player.dart';
 
 import '../WindowListener.dart';

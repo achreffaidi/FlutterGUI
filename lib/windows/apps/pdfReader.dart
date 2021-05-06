@@ -9,7 +9,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
-import 'package:mywebsite/windows/window.dart';
+import 'package:flutterOs/windows/window.dart';
 import 'package:native_pdf_view/native_pdf_view.dart';
 
 import '../WindowListener.dart';

@@ -1,5 +1,5 @@
-import 'package:mywebsite/Util/fileManager/fileIconManager.dart';
-import 'package:mywebsite/Util/fileManager/fileNode.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
+import 'package:flutterOs/Util/fileManager/fileNode.dart';
 
 class CustomFilePDF extends FileNode{
 

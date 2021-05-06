@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-import 'package:mywebsite/Docker/dockerItem.dart';
-import 'package:mywebsite/Util/fileManager/fileIconManager.dart';
+import 'package:flutterOs/Docker/dockerItem.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 
-class Docker extends StatefulWidget {
+class Dock extends StatefulWidget {
 
   Function (DockItem item) callback;
 
-  Docker(this.callback);
+  Dock(this.callback);
 
   @override
-  _DockerState createState() => _DockerState();
+  _DockState createState() => _DockState();
 }
 
-class _DockerState extends State<Docker> {
+class _DockState extends State<Dock> {
 
   static const rad = 15.0;
   static const defaultSize = 40.0;

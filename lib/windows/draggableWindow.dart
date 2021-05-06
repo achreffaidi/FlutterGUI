@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:mywebsite/windows/window.dart';
+import 'package:flutterOs/windows/window.dart';
 import 'package:screenshot/screenshot.dart';
 
 import 'apps/screenshot.dart';

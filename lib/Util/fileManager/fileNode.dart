@@ -1,4 +1,4 @@
-import 'package:mywebsite/Util/fileManager/fileIconManager.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 
 abstract class FileNode{
 

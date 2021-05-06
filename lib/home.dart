@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mywebsite/Docker/dockerItem.dart';
-import 'package:mywebsite/Util/fileManager/fileIconManager.dart';
-import 'package:mywebsite/Util/fileManager/files/Folder.dart';
-import 'package:mywebsite/Util/fileManager/files/fileManager.dart';
-import 'package:mywebsite/windows/WindowListener.dart';
-import 'package:mywebsite/Docker/docker.dart';
-import 'package:mywebsite/windows/WindowManager.dart';
-import 'package:mywebsite/windows/apps/fileSystem.dart';
-import 'package:mywebsite/windows/draggableWindow.dart';
-import 'package:mywebsite/windows/window.dart';
-import 'package:mywebsite/extension.dart';
+import 'package:flutterOs/Docker/dockerItem.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
+import 'package:flutterOs/Util/fileManager/files/Folder.dart';
+import 'package:flutterOs/Util/fileManager/files/fileManager.dart';
+import 'package:flutterOs/windows/WindowListener.dart';
+import 'package:flutterOs/Docker/docker.dart';
+import 'package:flutterOs/windows/WindowManager.dart';
+import 'package:flutterOs/windows/apps/fileSystem.dart';
+import 'package:flutterOs/windows/draggableWindow.dart';
+import 'package:flutterOs/windows/window.dart';
+import 'package:flutterOs/extension.dart';
 import 'package:reorderables/reorderables.dart';
 
 import 'Util/fileManager/files/CustomFileHTML.dart';
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: 20,
               left: 0,
               right: 0,
-              child: Center(child: GestureDetector(child: Docker(_onDockerItemClicked)).showCursorOnHover)),
+              child: Center(child: GestureDetector(child: Dock(_onDockerItemClicked)).showCursorOnHover)),
         ],
       ),
     );

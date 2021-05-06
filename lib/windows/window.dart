@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mywebsite/Util/fileManager/consts/colors.dart';
-import 'package:mywebsite/windows/WindowListener.dart';
+import 'package:flutterOs/Util/fileManager/consts/colors.dart';
+import 'package:flutterOs/windows/WindowListener.dart';
 
 abstract class Application extends StatefulWidget {
   String? title;
