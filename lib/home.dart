@@ -4,15 +4,11 @@ import 'package:flutterOs/Docker/dockerItem.dart';
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutterOs/Util/fileManager/files/Folder.dart';
 import 'package:flutterOs/Util/fileManager/files/fileManager.dart';
-import 'package:flutterOs/windows/WindowListener.dart';
 import 'package:flutterOs/Docker/docker.dart';
 import 'package:flutterOs/windows/WindowManager.dart';
 import 'package:flutterOs/windows/apps/fileSystem.dart';
-import 'package:flutterOs/windows/draggableWindow.dart';
-import 'package:flutterOs/windows/window.dart';
 import 'package:flutterOs/extension.dart';
 import 'package:reorderables/reorderables.dart';
-
 import 'Util/fileManager/files/CustomFileHTML.dart';
 import 'Util/fileManager/files/CustomFileImage.dart';
 import 'Util/fileManager/files/CustomFilePDF.dart';
@@ -45,11 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getPositioned(){
-   return HomeScreen.windowManager.windows.reversed.map((e) => Positioned(
+    var size = MediaQuery.of(context).size;
+   return HomeScreen.windowManager.windows.reversed.map((e) {
+     if(e.x==-1){
+       e.x = (size.width-e.childWidget.getWidth())/2;
+       e.y = (size.height-e.childWidget.getHeight())/2;
+     }
+     return Positioned(
      key: e.key,
         left: e.x,
         top: e.y,
-        child: e)).toList();
+        child: e);
+   }).toList();
   }
   List<Widget> _tiles = List.empty();
 
@@ -68,16 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
         runSpacing: 4.0,
         padding: const EdgeInsets.all(8),
         children: _tiles,
-
         onReorder: _onReorder,
-        onNoReorder: (int index) {
-          //this callback is optional
-          debugPrint('${DateTime.now().toString().substring(5, 22)} reorder cancelled. index:$index');
-        },
-        onReorderStarted: (int index) {
-          //this callback is optional
-          debugPrint('${DateTime.now().toString().substring(5, 22)} reorder started: index:$index');
-        }
     );
     var column = Column(
       crossAxisAlignment: CrossAxisAlignment.start,

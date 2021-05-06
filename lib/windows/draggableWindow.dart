@@ -12,8 +12,8 @@ class DraggableWindow extends StatefulWidget {
 
   VoidCallback feedback;
   VoidCallback? onCrash;
-  double x = 0 ;
-  double y = 0;
+  double x = -1 ;
+  double y = -1;
   late double prevX = 0 ;
   late double prevY = 0 ;
 
