@@ -1,3 +1,4 @@
+import 'package:mywebsite/Util/fileManager/files/CustomFileHTML.dart';
 import 'package:mywebsite/Util/fileManager/files/CustomFileImage.dart';
 import 'package:mywebsite/Util/fileManager/files/CustomFilePDF.dart';
 import 'package:mywebsite/Util/fileManager/files/Folder.dart';
@@ -53,6 +54,8 @@ class FileManager {
         "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
         "BigBuckBunny.jpeg"),
     CustomFilePDF("resume2.pdf", "resume.pdf"),
+    CustomFilePDF("resume2.pdf", "resume.pdf"),
+    CustomFileHTML("About me.html", "about_me"),
     CustomFileImage("arctichare.png", "3.jpeg"),
 
 

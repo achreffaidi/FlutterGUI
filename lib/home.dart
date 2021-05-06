@@ -13,6 +13,7 @@ import 'package:mywebsite/windows/window.dart';
 import 'package:mywebsite/extension.dart';
 import 'package:reorderables/reorderables.dart';
 
+import 'Util/fileManager/files/CustomFileHTML.dart';
 import 'Util/fileManager/files/CustomFileImage.dart';
 import 'Util/fileManager/files/CustomFilePDF.dart';
 import 'Util/fileManager/files/CustomFileVideo.dart';
@@ -132,10 +133,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }else if(item.fileType == FileType.APP_FILE_MANAGER){
       HomeScreen.windowManager.startFolderApp();
     }else{
-      HomeScreen.windowManager.startVideoApp("h3uBr0CCm58");
+      HomeScreen.windowManager.startMazeGame();
     }
   }
 
+
+  //TODO Refactor this, redundant code in fileSystem.dart
   void updateTiles(){
     setState(() {
       _tiles = desktopFolder.children.map<Widget>((e) => GestureDetector(
@@ -153,6 +156,8 @@ class _HomeScreenState extends State<HomeScreen> {
           }
           else if(e.fileType==FileType.PDF){
             HomeScreen.windowManager.startPdfApp("assets/pdf/${(e as CustomFilePDF).path}");
+          }else if(e.fileType==FileType.HTML){
+            HomeScreen.windowManager.startHtmlReader("assets/html/${(e as CustomFileHTML).fileName}.html");
           }
 
         },

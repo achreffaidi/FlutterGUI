@@ -2,10 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cursor/flutter_cursor.dart';
 import 'package:mywebsite/Util/fileManager/consts/colors.dart';
 import 'package:mywebsite/windows/WindowListener.dart';
-import 'package:screenshot/screenshot.dart';
 
 abstract class Application extends StatefulWidget {
   String? title;

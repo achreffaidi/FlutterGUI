@@ -5,9 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mywebsite/Util/fileManager/files/Folder.dart';
 import 'package:mywebsite/Util/fileManager/files/fileManager.dart';
+import 'package:mywebsite/windows/apps/MazeGameApp.dart';
 import 'package:mywebsite/windows/apps/PhotoPreview.dart';
 import 'package:mywebsite/windows/apps/VideoPlayer.dart';
 import 'package:mywebsite/windows/apps/fileSystem.dart';
+import 'package:mywebsite/windows/apps/htmlReader.dart';
 import 'package:mywebsite/windows/apps/pdfReader.dart';
 import 'package:mywebsite/windows/draggableWindow.dart';
 import 'package:mywebsite/windows/window.dart';
@@ -48,6 +50,22 @@ class WindowManager{
     var appKey = GlobalKey();
 
     generateSimpleDraggableWindow(PdfReaderApp(title: "Pdf Reader",appKey: appKey,key: key,path: path,));
+  }
+
+  void startMazeGame(){
+
+    var key = UniqueKey();
+    var appKey = GlobalKey();
+
+    generateSimpleDraggableWindow(MazeGameApp(title: "Maze",appKey: appKey,key: key));
+  }
+
+  void startHtmlReader(String path){
+
+    var key = UniqueKey();
+    var appKey = GlobalKey();
+
+    generateSimpleDraggableWindow(HtmlReaderApp(title: "Html Reader",appKey: appKey,key: key,path: path,));
   }
   void startPainterApp(){
 

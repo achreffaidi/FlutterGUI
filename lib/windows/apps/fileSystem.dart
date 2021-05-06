@@ -5,6 +5,7 @@ import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutter_treeview/tree_view.dart';
 import 'package:mywebsite/Util/fileManager/fileIconManager.dart';
 import 'package:mywebsite/Util/fileManager/fileNode.dart';
+import 'package:mywebsite/Util/fileManager/files/CustomFileHTML.dart';
 import 'package:mywebsite/Util/fileManager/files/CustomFileImage.dart';
 import 'package:mywebsite/Util/fileManager/files/CustomFilePDF.dart';
 import 'package:mywebsite/Util/fileManager/files/CustomFileVideo.dart';
@@ -187,6 +188,8 @@ var column = Column(
           }
             else if(e.fileType==FileType.PDF){
               HomeScreen.windowManager.startPdfApp("assets/pdf/${(e as CustomFilePDF).path}");
+            }else if(e.fileType==FileType.HTML){
+              HomeScreen.windowManager.startHtmlReader("assets/html/${(e as CustomFileHTML).fileName}.html");
             }
 
         },
