@@ -17,10 +17,10 @@ class Dock extends StatefulWidget {
 class _DockState extends State<Dock> {
 
   static const rad = 15.0;
-  static const defaultSize = 40.0;
-  static const off = 5.0;
-  var _offest = 0.0;
+  static const _defaultSize = 40.0;
+  var _offset = 0.0;
   var currentIndex = -1;
+  late double _dockerWidth;
 
   List<DockItem> items = [
     DockItem("Calculator", FileType.APP_CALCULATOR),
@@ -34,14 +34,14 @@ class _DockState extends State<Dock> {
     DockItem("Painter", FileType.APP_PAINTER),
     DockItem("youtube", FileType.APP_YOUTUBE),
     DockItem("Painter", FileType.APP_PAINTER),
-
-
   ];
 
   @override
   Widget build(BuildContext context) {
+
+    _dockerWidth = MediaQuery.of(context).size.width*(_offset==0?0.5:0.6);
     return Container(
-      width: MediaQuery.of(context).size.width*(_offest==0?0.5:0.6),
+      width: _dockerWidth,
       child: Stack(
         children: [
 
@@ -63,7 +63,7 @@ class _DockState extends State<Dock> {
             ),
           ),
           Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: getList()
           ),
@@ -91,13 +91,13 @@ class _DockState extends State<Dock> {
                   ),
                   onHover: (event){
                     setState(() {
-                      _offest = event.position.dx;
+                      _offset = event.localPosition.dx;
                       currentIndex =  (getOffset()).round();
                     });
                   },
                   onExit: (event){
                     setState(() {
-                      _offest = 0 ;
+                      _offset = 0 ;
                     });
                   },
                 ),
@@ -110,37 +110,41 @@ class _DockState extends State<Dock> {
   }
 
   double getOffset(){
-    return (_offest-404)/85;
+    return (_offset)/(items.length*_defaultSize/5);
   }
 
   double getButtons(int x, double x1){
-      if(_offest==0) return 0 ;
-      var z = (x - x1)*(x - x1) - 4 ;
+      if(_offset==0) return 0 ;
+      var z = (x - x1)*(x - x1) - 3 ;
       if(z>0) return 0 ;
       return sqrt(-z)*20;
 
   }
+
+
 
   List<Widget> getList(){
     var x1 = getOffset();
     List<Widget> list = [];
     for(int  i = 0 ; i<items.length;i++){
       var dx = getButtons(i,x1);
-      list.add(Column(
-        children: [
-          i == currentIndex && _offest!= 0? Card(
-              color: Color.lerp(Colors.black, Colors.transparent, 0.5),
-              child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0,horizontal: 8),
-            child: Text(items[i].name,style: TextStyle(color: Colors.white),),
-          )):Container(),
-          Container(
-            margin: EdgeInsets.only(bottom: dx/3, right: (dx+defaultSize)/5,left: (dx+defaultSize)/5),
-            height:  dx + defaultSize,
-            width: dx + defaultSize,
-            child: Image.asset(items[i].getIcon())
-          ),
-        ],
+      list.add(Expanded(
+        child: Column(
+          children: [
+            i == currentIndex && _offset!= 0? Card(
+                color: Color.lerp(Colors.black, Colors.transparent, 0.5),
+                child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0,horizontal: 8),
+              child: Text(items[i].name,style: TextStyle(color: Colors.white,fontSize: 10,),textAlign: TextAlign.center,),
+            )):Container(),
+            Container(
+              margin: EdgeInsets.only(bottom: dx/3),
+              height:   _defaultSize + dx,
+              width:  _defaultSize + dx,
+              child: Image.asset(items[i].getIcon())
+            ),
+          ],
+        ),
       ),);
     }
     return list ;
