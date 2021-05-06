@@ -41,10 +41,14 @@ class _VideoPlayerState extends ApplicationState {
         _sliderMax = _controller.value.duration.inMilliseconds;
         _controller.addListener(() async {
           _sliderValue = _controller.value.position.inMilliseconds;
+
           setState(() {
 
           });
         });
+
+          widget.windowHeight = widget.windowWidth * _controller.value.size.height / _controller.value.size.width + controllersHeight;
+        _controller.play();
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
       });

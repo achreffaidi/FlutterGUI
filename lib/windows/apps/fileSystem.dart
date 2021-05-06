@@ -13,7 +13,6 @@ import 'package:flutterOs/Util/fileManager/files/fileManager.dart';
 import 'package:flutterOs/Util/fileManager/files/Folder.dart';
 import 'package:flutterOs/windows/window.dart';
 import 'package:reorderables/reorderables.dart';
-
 import '../../home.dart';
 import '../WindowListener.dart';
 
@@ -37,12 +36,23 @@ class FolderApp extends Application {
    }
 
    static getImage(FileNode e) {
+
+
+
      if(e.fileType==FileType.PICTURE){
-       return ClipRRect(
-           borderRadius: BorderRadius.all(
-             Radius.circular(10),
-           ),
-           child: Image.asset("assets/photos/${(e as CustomFileImage).path}"));
+       return
+          Material(
+            elevation: 6,
+            color: Colors.transparent,
+            child: Container(
+
+             decoration: BoxDecoration(
+                 border: Border.all(color: Colors.white,width:4)
+             ),
+             child: Image.asset("assets/photos/${(e as CustomFileImage).path}")),
+          );
+
+
      }
      if(e.fileType==FileType.VIDEO){
        return ClipRRect(

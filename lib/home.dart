@@ -164,8 +164,18 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(height: 80, width: 80,child: FolderApp.getImage(e),),
-            Text(e.name)
+            Container(height: 80, width: 80,child:
+            FolderApp.getImage(e),),
+            Text(e.name,style: TextStyle(
+              color: Colors.white,
+              shadows: <Shadow>[
+              Shadow(
+                offset: Offset(1.0, 1.0),
+                blurRadius: 3.0,
+                color: Color.fromARGB(150, 0, 0, 0),
+              ),
+
+            ],),)
           ],
         ),
       )).toList();
