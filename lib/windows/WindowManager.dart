@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/services.dart';
@@ -93,12 +94,12 @@ class WindowManager{
 
   }
 
-  void startPhotoPreviewApp(String path){
+  void startPhotoPreviewApp(String? path,Uint8List? memory){
 
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(PhotoPreviewApp(title: "Photo Preview",appKey: appKey, key: key ,path: path));
+    generateSimpleDraggableWindow(PhotoPreviewApp(title: "Photo Preview",appKey: appKey, key: key ,path: path,memory: memory,));
 
   }
 

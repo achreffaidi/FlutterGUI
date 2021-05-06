@@ -1,7 +1,9 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutterOs/home.dart';
 import 'package:flutterOs/windows/window.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import '../WindowListener.dart';
 import 'dart:typed_data';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -116,7 +118,7 @@ class _PainterPageState extends State<PainterPage> {
     }
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.black38,
+        backgroundColor: Colors.lightBlueAccent,
           title: const Text('Painter Example'),
           actions: actions,
           bottom: new PreferredSize(
@@ -132,40 +134,9 @@ class _PainterPageState extends State<PainterPage> {
     setState(() {
       _finished = true;
     });
-    Navigator.of(context)
-        .push(new MaterialPageRoute(builder: (BuildContext context) {
-      return new Scaffold(
-        appBar: new AppBar(
-          title: const Text('View your image'),
-        ),
-        body: new Container(
-            alignment: Alignment.center,
-            child: new FutureBuilder<Uint8List>(
-              future: picture.toPNG(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.done:
-                    if (snapshot.hasError) {
-                      return new Text('Error: ${snapshot.error}');
-                    } else {
-                      return Image.memory(snapshot.data!);
-                    }
-                    break;
-                  default:
-                    return new Container(
-                        child: new FractionallySizedBox(
-                          widthFactor: 0.1,
-                          child: new AspectRatio(
-                              aspectRatio: 1.0,
-                              child: new CircularProgressIndicator()),
-                          alignment: Alignment.center,
-                        ));
-                }
-              },
-            )),
-      );
-    }));
+
+    picture.toPNG().then((value) => HomeScreen.windowManager.startPhotoPreviewApp(null,value));
+
   }
 }
 
@@ -196,17 +167,17 @@ class DrawBar extends StatelessWidget {
               })),
           new StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-                return new RotatedBox(
-                    quarterTurns: _controller.eraseMode ? 2 : 0,
-                    child: IconButton(
-                        icon: new Icon(Icons.create),
-                        tooltip: (_controller.eraseMode ? 'Disable' : 'Enable') +
-                            ' eraser',
-                        onPressed: () {
-                          setState(() {
-                            _controller.eraseMode = !_controller.eraseMode;
-                          });
-                        }));
+                return IconButton(
+                  iconSize: 24,
+                    icon: new Icon(_controller.eraseMode ? MaterialCommunityIcons.eraser_variant:MaterialCommunityIcons.draw,color: Colors.white,
+                    ),
+                    tooltip: (_controller.eraseMode ? 'Disable' : 'Enable') +
+                        ' eraser',
+                    onPressed: () {
+                      setState(() {
+                        _controller.eraseMode = !_controller.eraseMode;
+                      });
+                    });
               }),
           Container(
               height: 70,
@@ -238,6 +209,7 @@ class _ColorPickerButtonState extends State<ColorPickerButton> {
       width: 300,
 
       child: BlockPicker(
+
         layoutBuilder: defaultLayoutBuilder,
         pickerColor: pickerColor,
         itemBuilder: defaultItemBuilder,

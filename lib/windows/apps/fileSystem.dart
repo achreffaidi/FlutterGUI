@@ -194,7 +194,7 @@ var column = Column(
               HomeScreen.windowManager.startVideoApp((e as CustomFileVideo).path);
             }
           else if(e.fileType==FileType.PICTURE){
-          HomeScreen.windowManager.startPhotoPreviewApp("assets/photos/${(e as CustomFileImage).path}");
+          HomeScreen.windowManager.startPhotoPreviewApp("assets/photos/${(e as CustomFileImage).path}",null);
           }
             else if(e.fileType==FileType.PDF){
               HomeScreen.windowManager.startPdfApp("assets/pdf/${(e as CustomFilePDF).path}");
