@@ -206,6 +206,9 @@ var column = Column(
           position: RelativeRect.fromSize(
               event.position & Size(48.0, 48.0), overlay.size));
       // Check if menu item clicked
+
+      Future.delayed(const Duration(milliseconds: 100), null);
+
       switch (menuItem) {
         case 1:
           onItemTap(e);
@@ -218,7 +221,7 @@ var column = Column(
     }
   }
 
-  void onItemTap(FileNode e){
+  void onItemTap(FileNode e) async {
     if(e.fileType == FileType.FOLDER){
       stack.insert(0, e as Folder);
       updateTiles();
