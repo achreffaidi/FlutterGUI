@@ -1,9 +1,12 @@
+import 'dart:collection';
+import 'dart:html';
+
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 
-abstract class FileNode{
+abstract class FileNode extends LinkedListEntry<FileNode> {
 
   final String name;
   final FileType fileType;
-
-  const FileNode(this.name, this.fileType);
+  bool canBeDeleted;
+   FileNode(this.name, this.fileType, {this.canBeDeleted = true});
 }

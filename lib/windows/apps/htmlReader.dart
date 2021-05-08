@@ -62,33 +62,36 @@ class _HtmlReaderAppState extends ApplicationState {
 
   Widget _builder(BuildContext context, AsyncSnapshot<String> snapshot) {
     if(!snapshot.hasData|| snapshot.data == null) return Center(child: CircularProgressIndicator());
-    return HtmlWidget(
-      // the first parameter (`html`) is required
-      snapshot.data!,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: HtmlWidget(
+        // the first parameter (`html`) is required
+        snapshot.data!,
 
-      // all other parameters are optional, a few notable params:
+        // all other parameters are optional, a few notable params:
 
-      // specify custom styling for an element
-      // see supported inline styling below
-      customStylesBuilder: (element) {
-        if (element.classes.contains('foo')) {
-          return {'color': 'red'};
-        }
+        // specify custom styling for an element
+        // see supported inline styling below
+        customStylesBuilder: (element) {
+          if (element.classes.contains('foo')) {
+            return {'color': 'red'};
+          }
 
-        return null;
-      },
+          return null;
+        },
 
-      // render a custom widget
-      customWidgetBuilder: (element) {
+        // render a custom widget
+        customWidgetBuilder: (element) {
 
-        return null;
-      },
+          return null;
+        },
 
-      // this callback will be triggered when user taps a link
-      onTapUrl: _launchURL,
+        // this callback will be triggered when user taps a link
+        onTapUrl: _launchURL,
 
-      // set the default styling for text
-      textStyle: TextStyle(fontSize: 14),
+        // set the default styling for text
+        textStyle: TextStyle(fontSize: 14),
+      ),
     );
   }
 }

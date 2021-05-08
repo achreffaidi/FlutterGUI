@@ -5,6 +5,6 @@ class CustomFileHTML extends FileNode{
 
   final String fileName;
 
-  const CustomFileHTML(String name,this.fileName) : super(name, FileType.HTML);
+   CustomFileHTML(String name,this.fileName) : super(name, FileType.HTML);
 
 }

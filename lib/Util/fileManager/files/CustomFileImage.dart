@@ -5,6 +5,6 @@ class CustomFileImage extends FileNode{
 
   final String path;
 
-  const CustomFileImage(String name,this.path) : super(name, FileType.PICTURE);
+   CustomFileImage(String name,this.path) : super(name, FileType.PICTURE);
 
 }

@@ -1,12 +1,20 @@
+import 'dart:collection';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutterOs/Util/fileManager/files/CustomFileHTML.dart';
 import 'package:flutterOs/Util/fileManager/files/CustomFileImage.dart';
 import 'package:flutterOs/Util/fileManager/files/CustomFilePDF.dart';
 import 'package:flutterOs/Util/fileManager/files/Folder.dart';
 
+import '../fileNode.dart';
 import 'CustomFileVideo.dart';
 
 class FileManager {
-  static const Folder desktop = Folder("Desktop", [
+
+  static final List<VoidCallback> listeners = List.empty(growable: true);
+
+  static  Folder desktop = Folder("Desktop", [
     Folder("Pictures", [
       Folder("2021", [
         CustomFileImage("airplane.png", "1.jpeg"),
@@ -61,9 +69,9 @@ class FileManager {
 
     CustomFilePDF("resume4.pdf", "resume.pdf"),
 
-  ]);
+  ], canBeDeleted: false);
 
-  static const Folder root  =  Folder("Root", [
+  static  Folder root  =  Folder("Root", [
       desktop,
       Folder("Pictures", [
         Folder("2021", [
@@ -99,6 +107,32 @@ class FileManager {
         CustomFilePDF("resume4.pdf", "resume.pdf"),
         CustomFilePDF("resume5.pdf", "resume.pdf"),
       ]),
-    ]);
+    ], canBeDeleted: false);
+
+  static bool delete(FileNode file,Folder source ){
+      for(int i = 0 ; i<source.children.length;i++){
+        if(file == source.children.elementAt(i) && file.canBeDeleted){
+
+          source.children.remove(source.children.elementAt(i));
+          notifyListener();
+          return true ;
+        }else{
+          if(source.children.elementAt(i).fileType == FileType.FOLDER){
+            if (delete(file, (source.children.elementAt(i) as Folder))) return true;
+          }
+        }
+      }
+      return false;
+  }
+
+  static subscribeToListener(VoidCallback callback){
+    listeners.add(callback);
+  }
+
+  static notifyListener(){
+    for(var listener in listeners){
+      listener();
+    }
+  }
 
 }

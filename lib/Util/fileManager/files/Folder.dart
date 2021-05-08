@@ -1,11 +1,16 @@
+import 'dart:collection';
+
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutterOs/Util/fileManager/fileNode.dart';
 
 class Folder extends FileNode{
 
-  final List<FileNode> children;
+  LinkedList<FileNode> children = LinkedList();
 
-  const Folder(String name,this.children) : super(name, FileType.FOLDER);
+
+   Folder(String name,List <FileNode> children,{bool canBeDeleted = true}) : super(name, FileType.FOLDER,canBeDeleted: canBeDeleted){
+     this.children.addAll(children);
+   }
 
   List<Folder> getSubFolders(){
     List<FileNode> temp = List.from(children);

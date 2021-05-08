@@ -71,48 +71,46 @@ class _VideoPlayerState extends ApplicationState {
     return Container(
       height: widget.windowHeight,
       width: widget.windowWidth,
-      child: Scaffold(
-        body: Column(
-          children: [
-            Container(
-              height: widget.windowHeight - controllersHeight,
-              width: widget.windowWidth,
-              child: _controller.value.isInitialized
-                  ? AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
-              )
-                  : Container(),
-            ),
-            Container(
-              height: controllersHeight,
-              child:
-              Center(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Flexible(child: Slider(min: _sliderMin.toDouble(),max:_sliderMax.toDouble(), value: _sliderValue.toDouble(), onChanged: _onSliderChange)),
-                    Text("${_printDuration(_controller.value.position)}/${_printDuration(_controller.value.duration)}"),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _controller.value.isPlaying
-                              ? _controller.pause()
-                              : _controller.play();
-                        });
-                      },
-                      icon: Container(
-                        padding: EdgeInsets.only(right: 20),
-                        child: Icon(
-                          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                        ),
+      child: Column(
+        children: [
+          Container(
+            height: widget.windowHeight - controllersHeight,
+            width: widget.windowWidth,
+            child: _controller.value.isInitialized
+                ? AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: VideoPlayer(_controller),
+            )
+                : Container(),
+          ),
+          Container(
+            height: controllersHeight,
+            child:
+            Center(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(child: Slider(min: _sliderMin.toDouble(),max:_sliderMax.toDouble(), value: _sliderValue.toDouble(), onChanged: _onSliderChange)),
+                  Text("${_printDuration(_controller.value.position)}/${_printDuration(_controller.value.duration)}"),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _controller.value.isPlaying
+                            ? _controller.pause()
+                            : _controller.play();
+                      });
+                    },
+                    icon: Container(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Icon(
+                        _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
                       ),
-                    )
-                  ],
-                ),
-              ),)
-          ],
-        ),
+                    ),
+                  )
+                ],
+              ),
+            ),)
+        ],
       ),
     );
   }

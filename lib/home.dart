@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterOs/Docker/dockerItem.dart';
@@ -30,14 +32,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+
+    super.initState();
+    document.onContextMenu.listen((event) => event.preventDefault());
     HomeScreen.windowManager = WindowManager( onUpdate:  (){
       setState(() {
 
     });});
-
+    FileManager.subscribeToListener(updateTiles);
     updateTiles();
 
-    super.initState();
+
   }
 
   getPositioned(){

@@ -1,5 +1,6 @@
 
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutter_treeview/tree_view.dart';
@@ -95,10 +96,9 @@ class _FolderAppState extends ApplicationState {
 
   _FolderAppState(Folder currentFolder){
     stack.add(currentFolder);
-    nodes = [FolderApp.convert(stack.first,isExpanded: true)];
-    _treeViewController = TreeViewController(children: nodes);
   }
 
+  var _defaultPanelWidth = 150.0;
   var _panelWidth = 150.0;
 
   @override
@@ -136,26 +136,36 @@ var column = Column(
       height: widget.windowHeight,
       width: widget.windowWidth,
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.blue,
           leading: Row(
             children: [
               IconButton(onPressed: (stack.length>1)? _onBackClicked : null, icon: Icon(Icons.arrow_back_ios))
             ],
           ),
-          title: Text(getPath(stack.last,stack.first)),
+          title: Text(getPath(FileManager.root,stack.first)),
         ),
         body: Container(
-          color: Colors.white,
           child: Row(
             children: [
               Container(
 
                 width: _panelWidth,
                 height: widget.windowHeight,
-                child: Card(
-                  color: Colors.blueGrey,
-                  child: getPane()
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.blue,
+                        Colors.white,
+                        Colors.white,
+                      ],
+                    )
                 ),
+                child: getPane(),
               ),
               Container(
                 height: widget.windowHeight,
@@ -172,43 +182,80 @@ var column = Column(
   }
 
 
-  final double _iconSize = 90;
   List<Widget> _tiles = List.empty();
 
   @override
   void initState() {
     super.initState();
+    FileManager.subscribeToListener(updateTiles);
     updateTiles();
   }
 
+  Future<void> _onPointerDown(PointerDownEvent event, FileNode e) async {
+    // Check if right mouse button clicked
+    if (event.kind == PointerDeviceKind.mouse &&
+        event.buttons == kSecondaryMouseButton) {
+      final overlay =
+      Overlay.of(context)!.context.findRenderObject() as RenderBox;
+      final menuItem = await showMenu<int>(
+          context: context,
+          items: [
+            PopupMenuItem(child: Text('Open'), value: 1),
+            PopupMenuItem(child: Text('Remove'), value: 2),
+          ],
+          position: RelativeRect.fromSize(
+              event.position & Size(48.0, 48.0), overlay.size));
+      // Check if menu item clicked
+      switch (menuItem) {
+        case 1:
+          onItemTap(e);
+          break;
+        case 2:
+          FileManager.delete(e,FileManager.root);
+          break;
+        default:
+      }
+    }
+  }
+
+  void onItemTap(FileNode e){
+    if(e.fileType == FileType.FOLDER){
+      stack.insert(0, e as Folder);
+      updateTiles();
+    }else
+    if(e.fileType==FileType.VIDEO){
+      HomeScreen.windowManager.startVideoApp((e as CustomFileVideo).path);
+    }
+    else if(e.fileType==FileType.PICTURE){
+      HomeScreen.windowManager.startPhotoPreviewApp("assets/photos/${(e as CustomFileImage).path}",null);
+    }
+    else if(e.fileType==FileType.PDF){
+      HomeScreen.windowManager.startPdfApp("assets/pdf/${(e as CustomFilePDF).path}");
+    }else if(e.fileType==FileType.HTML){
+      HomeScreen.windowManager.startHtmlReader("assets/html/${(e as CustomFileHTML).fileName}.html");
+    }
+  }
+
   void updateTiles(){
+    nodes = [FolderApp.convert(FileManager.root,isExpanded: true)];
+    _treeViewController = TreeViewController(children: nodes);
     setState(() {
       _tiles = stack.first.children.map<Widget>((e) => GestureDetector(
 
+
         onDoubleTap: (){
-          if(e.fileType == FileType.FOLDER){
-            stack.insert(0, e as Folder);
-            updateTiles();
-          }else
-            if(e.fileType==FileType.VIDEO){
-              HomeScreen.windowManager.startVideoApp((e as CustomFileVideo).path);
-            }
-          else if(e.fileType==FileType.PICTURE){
-          HomeScreen.windowManager.startPhotoPreviewApp("assets/photos/${(e as CustomFileImage).path}",null);
-          }
-            else if(e.fileType==FileType.PDF){
-              HomeScreen.windowManager.startPdfApp("assets/pdf/${(e as CustomFilePDF).path}");
-            }else if(e.fileType==FileType.HTML){
-              HomeScreen.windowManager.startHtmlReader("assets/html/${(e as CustomFileHTML).fileName}.html");
-            }
+        onItemTap(e);
 
         },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(height: 80, width: 80,child: FolderApp.getImage(e),),
-            Text(e.name)
-          ],
+        child: Listener(
+          onPointerDown: (event) => _onPointerDown(event,e),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(height: 80, width: 80,child: FolderApp.getImage(e),),
+              Text(e.name)
+            ],
+          ),
         ),
       )).toList();
     });
@@ -220,16 +267,45 @@ var column = Column(
       updateTiles();
   }
 
+  void _onHorizontalDragRight(DragUpdateDetails details) {
+
+    setState(() {
+      if(_panelWidth<widget.windowWidth/2 || details.delta.dx<0 )
+      _panelWidth += details.delta.dx;
+      if (_panelWidth < _defaultPanelWidth) {
+        _panelWidth = _defaultPanelWidth;
+      }
+    });
+  }
 
   getPane() {
-    return TreeView(
-      allowParentSelect: true,
-      controller: _treeViewController,
-      onNodeTap: (key) {
-        Node selectedNode = _treeViewController.getNode(key);
-        stack.insert(0,selectedNode.data) ;
-        updateTiles();
-      },
+    return Stack(
+      children: [
+        TreeView(
+          allowParentSelect: true,
+          controller: _treeViewController,
+          nodeBuilder: _nodeBuilder,
+          onNodeTap: (key) {
+            Node selectedNode = _treeViewController.getNode(key);
+            stack.insert(0,selectedNode.data) ;
+            updateTiles();
+          },
+        ),
+        Positioned(
+            right: 0,
+            top: 0,
+            bottom: 0,
+            child: GestureDetector(
+              onHorizontalDragUpdate: _onHorizontalDragRight,
+              child: MouseRegion(
+                cursor: SystemMouseCursors.resizeLeftRight,
+                opaque: true,
+                child: Container(
+                  width: 4,
+                ),
+              ),
+            )),
+      ],
     );
   }
 
@@ -246,4 +322,21 @@ var column = Column(
   }
 
 
+
+  _nodeBuilder(BuildContext buildContext, Node<dynamic> node) {
+    var isSelected = node.data == stack.first;
+    return
+        Container(
+          color: isSelected? Color.lerp(Colors.blue, Colors.transparent, 0.5):Colors.transparent,
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset("assets/icons/folder.png",height: 20,width: 20,),
+              ),
+              Text(node.data.name),
+            ],
+          ),
+        );
+  }
 }

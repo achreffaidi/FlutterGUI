@@ -5,6 +5,6 @@ class CustomFilePDF extends FileNode{
 
   final String path;
 
-  const CustomFilePDF(String name,this.path) : super(name, FileType.PDF);
+   CustomFilePDF(String name,this.path) : super(name, FileType.PDF);
 
 }
