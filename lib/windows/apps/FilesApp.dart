@@ -154,7 +154,8 @@ class _FilesAppState extends ApplicationState {
                 child: SingleChildScrollView(
                   child: FileTails(
                       stack,
-                      onFolderClick: (e){
+                      fromFileManagerApp: true,
+                      onFolderOpen: (e){
                         stack.insert(0, e as Folder);
                         setState(() {
 

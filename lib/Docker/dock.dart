@@ -49,7 +49,7 @@ class _DockState extends State<Dock> {
             child: Container(
               height: 50,
               decoration: BoxDecoration(
-                color: Color.lerp(Colors.black, Colors.transparent, 0.8),
+                color: Color.lerp(Colors.blue, Colors.transparent, 0.2),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(rad),
                     topRight: Radius.circular(rad),
@@ -203,7 +203,13 @@ class _DockState extends State<Dock> {
                 width:  _defaultSize + dx,
                 child: Image.asset(widget.controller.items[i].getIcon())
               ),
-              Icon(Icons.circle,color: widget.controller.items[i].isActive?Colors.white:Colors.transparent,size: 5,)
+              Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: widget.controller.items[i].isActive? Material(
+                    elevation: 4,
+                    color: Colors.transparent,
+                    child: Icon(Icons.circle,color: Colors.white,size: 5,)):Container(),
+              )
             ],
           ),
         ),

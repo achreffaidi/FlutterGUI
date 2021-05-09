@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 500,
                 child: FileTails(
                   [_fileManager.desktop],
-                  onFolderClick: (e) {
+                  onFolderOpen: (e) {
                     windowManager
                         .startFolderApp(folder: e as Folder);
                   },
