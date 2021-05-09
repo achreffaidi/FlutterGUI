@@ -8,16 +8,12 @@ import 'package:flutterOs/Util/fileManager/files/Folder.dart';
 import 'package:flutterOs/Util/fileManager/files/fileManager.dart';
 import 'package:flutterOs/Docker/docker.dart';
 import 'package:flutterOs/windows/WindowManager.dart';
-import 'package:flutterOs/windows/apps/fileSystem.dart';
 import 'package:flutterOs/extension.dart';
-import 'package:reorderables/reorderables.dart';
-import 'Util/fileManager/files/CustomFileHTML.dart';
-import 'Util/fileManager/files/CustomFileImage.dart';
-import 'Util/fileManager/files/CustomFilePDF.dart';
-import 'Util/fileManager/files/CustomFileVideo.dart';
+import 'package:flutterOs/windows/apps/widgets/fileTiles.dart';
+import 'package:get_it/get_it.dart';
+
 
 class HomeScreen extends StatefulWidget {
-
   static late WindowManager windowManager;
 
   @override
@@ -25,74 +21,47 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
-
-  var desktopFolder = FileManager.desktop;
+  late FileManager _fileManager;
 
   @override
   void initState() {
-
     super.initState();
+    _fileManager = GetIt.instance.get<FileManager>();
     document.onContextMenu.listen((event) => event.preventDefault());
-    HomeScreen.windowManager = WindowManager( onUpdate:  (){
+    HomeScreen.windowManager = WindowManager(onUpdate: () {
+      setState(() {});
+    });
+    _fileManager.subscribeToListener((){
       setState(() {
 
-    });});
-    FileManager.subscribeToListener(updateTiles);
-    updateTiles();
-
-
+      });
+    });
   }
 
-  getPositioned(){
+  getPositioned() {
     var size = MediaQuery.of(context).size;
-   return HomeScreen.windowManager.windows.reversed.map((e) {
-     if(e.x==-1){
-       e.x = (size.width-e.childWidget.getWidth())/2;
-       e.y = (size.height-e.childWidget.getHeight())/2;
-     }
-     return Positioned(
-     key: e.key,
-        left: e.x,
-        top: e.y,
-        child: e);
-   }).toList();
+    return HomeScreen.windowManager.windows.reversed.map((e) {
+      if (e.x == -1) {
+        e.x = (size.width - e.childWidget.getWidth()) / 2;
+        e.y = (size.height - e.childWidget.getHeight()) / 2;
+      }
+      return Positioned(key: e.key, left: e.x, top: e.y, child: e);
+    }).toList();
   }
-  List<Widget> _tiles = List.empty();
+
 
   @override
   Widget build(BuildContext context) {
-
-    void _onReorder(int oldIndex, int newIndex) {
-      setState(() {
-        Widget row = _tiles.removeAt(oldIndex);
-        _tiles.insert(newIndex, row);
-      });
-    }
-
-    var wrap = ReorderableWrap(
-        spacing: 8.0,
-        runSpacing: 4.0,
-        padding: const EdgeInsets.all(8),
-        children: _tiles,
-        onReorder: _onReorder,
-    );
-    var column = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        wrap,
-      ],
-    );
-
-
     return Scaffold(
-      body:Stack(
+      body: Stack(
         children: [
           Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Image.network("https://blog.glugmvit.com/assets/images/first_app/flutter.jpg",fit: BoxFit.fill,),
+            child: Image.network(
+              "https://blog.glugmvit.com/assets/images/first_app/flutter.jpg",
+              fit: BoxFit.fill,
+            ),
           ),
           Positioned(
             top: 0,
@@ -100,21 +69,31 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
                 height: 500,
                 width: 500,
-                child: column),
+                child: FileTails(
+                  [_fileManager.desktop],
+                  onFolderClick: (e) {
+                    HomeScreen.windowManager
+                        .startFolderApp(folder: e as Folder);
+                  },
+                  onFileNodeDelete: (e) {
+                    _fileManager.delete(e, _fileManager.desktop);
+                  },
+                )),
           ),
           _getBody(),
           Positioned(
               bottom: 20,
               left: 0,
               right: 0,
-              child: Center(child: GestureDetector(child: Dock(_onDockerItemClicked)).showCursorOnHover)),
+              child: Center(
+                  child: GestureDetector(child: Dock(_onDockerItemClicked))
+                      .showCursorOnHover)),
         ],
       ),
     );
   }
 
   Widget _getBody() {
-
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -125,61 +104,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _onDockerItemClicked(DockItem item) {
-    if(item.fileType == FileType.APP_CALCULATOR){
+    if (item.fileType == FileType.APP_CALCULATOR) {
       HomeScreen.windowManager.startCalculatorApp();
-    }else if(item.fileType == FileType.APP_PAINTER) {
+    } else if (item.fileType == FileType.APP_PAINTER) {
       HomeScreen.windowManager.startPainterApp();
-    }else if(item.fileType == FileType.APP_FILE_MANAGER){
+    } else if (item.fileType == FileType.APP_FILE_MANAGER) {
       HomeScreen.windowManager.startFolderApp();
-    }else{
+    } else {
       HomeScreen.windowManager.startMazeGame();
     }
   }
-
-
-  //TODO Refactor this, redundant code in fileSystem.dart
-  void updateTiles(){
-    setState(() {
-      _tiles = desktopFolder.children.map<Widget>((e) => GestureDetector(
-
-        onDoubleTap: (){
-          if(e.fileType == FileType.FOLDER){
-            HomeScreen.windowManager.startFolderApp(folder: e as Folder);
-            updateTiles();
-          }else
-          if(e.fileType==FileType.VIDEO){
-            HomeScreen.windowManager.startVideoApp((e as CustomFileVideo).path);
-          }
-          else if(e.fileType==FileType.PICTURE){
-            HomeScreen.windowManager.startPhotoPreviewApp("assets/photos/${(e as CustomFileImage).path}",null);
-          }
-          else if(e.fileType==FileType.PDF){
-            HomeScreen.windowManager.startPdfApp("assets/pdf/${(e as CustomFilePDF).path}");
-          }else if(e.fileType==FileType.HTML){
-            HomeScreen.windowManager.startHtmlReader("assets/html/${(e as CustomFileHTML).fileName}.html");
-          }
-
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(height: 80, width: 80,child:
-            FolderApp.getImage(e),),
-            Text(e.name,style: TextStyle(
-              color: Colors.white,
-              shadows: <Shadow>[
-              Shadow(
-                offset: Offset(1.0, 1.0),
-                blurRadius: 3.0,
-                color: Color.fromARGB(150, 0, 0, 0),
-              ),
-
-            ],),)
-          ],
-        ),
-      )).toList();
-    });
-  }
-
-
 }

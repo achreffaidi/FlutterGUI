@@ -25,15 +25,15 @@ class _DockState extends State<Dock> {
   List<DockItem> items = [
     DockItem("Calculator", FileType.APP_CALCULATOR),
     DockItem("File Manager", FileType.APP_FILE_MANAGER),
-    DockItem("resume", FileType.PDF),
+    //DockItem("resume", FileType.PDF),
     DockItem("Painter", FileType.APP_PAINTER),
-    DockItem("File Manager", FileType.APP_FILE_MANAGER),
-    DockItem("youtube", FileType.APP_YOUTUBE),
-    DockItem("Calculator", FileType.APP_CALCULATOR),
-    DockItem("File Manager", FileType.APP_FILE_MANAGER),
-    DockItem("Painter", FileType.APP_PAINTER),
-    DockItem("youtube", FileType.APP_YOUTUBE),
-    DockItem("Painter", FileType.APP_PAINTER),
+    //DockItem("File Manager", FileType.APP_FILE_MANAGER),
+    //DockItem("youtube", FileType.APP_YOUTUBE),
+    //DockItem("Calculator", FileType.APP_CALCULATOR),
+    //DockItem("File Manager", FileType.APP_FILE_MANAGER),
+    //DockItem("Painter", FileType.APP_PAINTER),
+    //DockItem("youtube", FileType.APP_YOUTUBE),
+    //DockItem("Painter", FileType.APP_PAINTER),
   ];
 
   @override

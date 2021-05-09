@@ -9,11 +9,12 @@ import 'package:flutterOs/Util/fileManager/files/fileManager.dart';
 import 'package:flutterOs/windows/apps/MazeGameApp.dart';
 import 'package:flutterOs/windows/apps/PhotoPreview.dart';
 import 'package:flutterOs/windows/apps/VideoPlayer.dart';
-import 'package:flutterOs/windows/apps/fileSystem.dart';
+import 'package:flutterOs/windows/apps/FilesApp.dart';
 import 'package:flutterOs/windows/apps/htmlReader.dart';
 import 'package:flutterOs/windows/apps/pdfReader.dart';
 import 'package:flutterOs/windows/draggableWindow.dart';
 import 'package:flutterOs/windows/window.dart';
+import 'package:get_it/get_it.dart';
 
 import 'WindowListener.dart';
 import 'apps/calculator.dart';
@@ -22,11 +23,14 @@ import 'apps/screenshot.dart';
 
 class WindowManager{
 
+
+
   final VoidCallback onUpdate;
+   late FileManager _fileManager;
 
   final assetsAudioPlayer = AssetsAudioPlayer();
   WindowManager({required this.onUpdate}){
-
+    _fileManager = GetIt.instance.get<FileManager>();
 
     assetsAudioPlayer.open(
       Audio("assets/erro.mp3"),
@@ -81,8 +85,8 @@ class WindowManager{
 
     var key = UniqueKey();
     var appKey = GlobalKey();
-    if(folder==null)folder = FileManager.root;
-    generateSimpleDraggableWindow(FolderApp(title: "Folder App",appKey: appKey, key: key,currentFolder: folder));
+    if(folder==null)folder = _fileManager.root;
+    generateSimpleDraggableWindow(FilesApp(title: "Folder App",appKey: appKey, key: key,currentFolder: folder));
 
   }
   void startVideoApp(String url){

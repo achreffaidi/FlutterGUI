@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/files/fileManager.dart';
 import 'package:flutterOs/home.dart';
+import 'package:get_it/get_it.dart';
 import 'package:native_pdf_view/native_pdf_view.dart';
 
 void main() {
+  GetIt getIt = GetIt.instance;
+  getIt.registerSingleton<FileManager>(FileManager());
   runApp(MyApp());
 }
 

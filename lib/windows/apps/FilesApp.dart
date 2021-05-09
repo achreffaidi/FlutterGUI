@@ -2,6 +2,7 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterOs/windows/apps/widgets/fileTiles.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutter_treeview/tree_view.dart';
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
@@ -13,6 +14,7 @@ import 'package:flutterOs/Util/fileManager/files/CustomFileVideo.dart';
 import 'package:flutterOs/Util/fileManager/files/fileManager.dart';
 import 'package:flutterOs/Util/fileManager/files/Folder.dart';
 import 'package:flutterOs/windows/window.dart';
+import 'package:get_it/get_it.dart';
 import 'package:reorderables/reorderables.dart';
 import '../../home.dart';
 import '../WindowListener.dart';
@@ -20,11 +22,11 @@ import '../WindowListener.dart';
 
 
 
-class FolderApp extends Application {
+class FilesApp extends Application {
 
    Folder currentFolder ;
 
-   FolderApp( { required Key key,GlobalKey? appKey,  String? title,  WindowListener? listener, required this.currentFolder }) : super(key: key,appKey: appKey,title: title,listener: listener);
+   FilesApp( { required Key key,GlobalKey? appKey,  String? title,  WindowListener? listener, required this.currentFolder }) : super(key: key,appKey: appKey,title: title,listener: listener);
    @override
    double getHeight() {
 
@@ -85,16 +87,16 @@ class FolderApp extends Application {
   
 
   @override
-  _FolderAppState createState() => _FolderAppState(currentFolder);
+  _FilesAppState createState() => _FilesAppState(currentFolder);
 }
 
-class _FolderAppState extends ApplicationState {
+class _FilesAppState extends ApplicationState {
 
   List<Folder> stack = List.empty(growable: true);
   List<Node> nodes = List.empty(growable: true);
   late TreeViewController _treeViewController ;
 
-  _FolderAppState(Folder currentFolder){
+  _FilesAppState(Folder currentFolder){
     stack.add(currentFolder);
   }
 
@@ -103,34 +105,9 @@ class _FolderAppState extends ApplicationState {
 
   @override
   Widget getApp(){
-    void _onReorder(int oldIndex, int newIndex) {
-      setState(() {
-        Widget row = _tiles.removeAt(oldIndex);
-        _tiles.insert(newIndex, row);
-      });
-    }
 
-    var wrap = ReorderableWrap(
-        spacing: 8.0,
-        runSpacing: 4.0,
-        padding: const EdgeInsets.all(8),
-        children: _tiles,
-        onReorder: _onReorder,
-        onNoReorder: (int index) {
-          //this callback is optional
-          debugPrint('${DateTime.now().toString().substring(5, 22)} reorder cancelled. index:$index');
-        },
-        onReorderStarted: (int index) {
-          //this callback is optional
-          debugPrint('${DateTime.now().toString().substring(5, 22)} reorder started: index:$index');
-        }
-    );
-var column = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        wrap,
-      ],
-    );
+    nodes = [FilesApp.convert(_fileManager.root,isExpanded: true)];
+    _treeViewController = TreeViewController(children: nodes);
 
     return Container(
       height: widget.windowHeight,
@@ -145,7 +122,7 @@ var column = Column(
               IconButton(onPressed: (stack.length>1)? _onBackClicked : null, icon: Icon(Icons.arrow_back_ios))
             ],
           ),
-          title: Text(getPath(FileManager.root,stack.first)),
+          title: Text(getPath(_fileManager.root,stack.first)),
         ),
         body: Container(
           child: Row(
@@ -171,7 +148,18 @@ var column = Column(
                 height: widget.windowHeight,
                 width: widget.windowWidth - _panelWidth,
                 child: SingleChildScrollView(
-                  child: column,
+                  child: FileTails(
+                      stack,
+                      onFolderClick: (e){
+                        stack.insert(0, e as Folder);
+                        setState(() {
+
+                        });
+                      },
+                    onFileNodeDelete: (e){
+                        _fileManager.delete(e, _fileManager.root);
+                    },
+                  ),
                 ),
               ),
             ],
@@ -182,92 +170,27 @@ var column = Column(
   }
 
 
-  List<Widget> _tiles = List.empty();
 
+  late FileManager _fileManager;
   @override
   void initState() {
     super.initState();
-    FileManager.subscribeToListener(updateTiles);
-    updateTiles();
-  }
+    _fileManager = GetIt.instance.get<FileManager>();
+    _fileManager.subscribeToListener((){
+      setState(() {
 
-  Future<void> _onPointerDown(PointerDownEvent event, FileNode e) async {
-    // Check if right mouse button clicked
-    if (event.kind == PointerDeviceKind.mouse &&
-        event.buttons == kSecondaryMouseButton) {
-      final overlay =
-      Overlay.of(context)!.context.findRenderObject() as RenderBox;
-      final menuItem = await showMenu<int>(
-          context: context,
-          items: [
-            PopupMenuItem(child: Text('Open'), value: 1),
-            PopupMenuItem(child: Text('Remove'), value: 2),
-          ],
-          position: RelativeRect.fromSize(
-              event.position & Size(48.0, 48.0), overlay.size));
-      // Check if menu item clicked
-
-      Future.delayed(const Duration(milliseconds: 100), null);
-
-      switch (menuItem) {
-        case 1:
-          onItemTap(e);
-          break;
-        case 2:
-          FileManager.delete(e,FileManager.root);
-          break;
-        default:
-      }
-    }
-  }
-
-  void onItemTap(FileNode e) async {
-    if(e.fileType == FileType.FOLDER){
-      stack.insert(0, e as Folder);
-      updateTiles();
-    }else
-    if(e.fileType==FileType.VIDEO){
-      HomeScreen.windowManager.startVideoApp((e as CustomFileVideo).path);
-    }
-    else if(e.fileType==FileType.PICTURE){
-      HomeScreen.windowManager.startPhotoPreviewApp("assets/photos/${(e as CustomFileImage).path}",null);
-    }
-    else if(e.fileType==FileType.PDF){
-      HomeScreen.windowManager.startPdfApp("assets/pdf/${(e as CustomFilePDF).path}");
-    }else if(e.fileType==FileType.HTML){
-      HomeScreen.windowManager.startHtmlReader("assets/html/${(e as CustomFileHTML).fileName}.html");
-    }
-  }
-
-  void updateTiles(){
-    nodes = [FolderApp.convert(FileManager.root,isExpanded: true)];
-    _treeViewController = TreeViewController(children: nodes);
-    setState(() {
-      _tiles = stack.first.children.map<Widget>((e) => GestureDetector(
-
-
-        onDoubleTap: (){
-        onItemTap(e);
-
-        },
-        child: Listener(
-          onPointerDown: (event) => _onPointerDown(event,e),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(height: 80, width: 80,child: FolderApp.getImage(e),),
-              Text(e.name)
-            ],
-          ),
-        ),
-      )).toList();
+      });
     });
   }
 
 
+
+
   void _onBackClicked() {
       stack.removeAt(0);
-      updateTiles();
+      setState(() {
+
+      });
   }
 
   void _onHorizontalDragRight(DragUpdateDetails details) {
@@ -291,7 +214,9 @@ var column = Column(
           onNodeTap: (key) {
             Node selectedNode = _treeViewController.getNode(key);
             stack.insert(0,selectedNode.data) ;
-            updateTiles();
+            setState(() {
+
+            });
           },
         ),
         Positioned(
