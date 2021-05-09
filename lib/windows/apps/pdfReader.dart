@@ -25,12 +25,12 @@ class PdfReaderApp extends Application {
 
   @override
   double getHeight() {
-    return 800;
+    return 600;
   }
 
   @override
   double getWidth() {
-    return 550;
+    return 400;
   }
 
   @override

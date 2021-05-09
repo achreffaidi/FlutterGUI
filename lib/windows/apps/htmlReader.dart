@@ -19,12 +19,12 @@ class HtmlReaderApp extends Application {
    HtmlReaderApp( { required Key key,GlobalKey? appKey,  String? title,  WindowListener? listener, required this.path }) : super(key: key,appKey: appKey,title: title,listener: listener);
    @override
    double getHeight() {
-     return 700;
+     return 500;
    }
 
    @override
    double getWidth() {
-     return 500;
+     return 600;
    }
    @override
    FileType getFileType() {

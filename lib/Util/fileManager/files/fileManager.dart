@@ -66,7 +66,7 @@ class FileManager {
               "BigBuckBunny.jpeg"),
           CustomFilePDF("resume2.pdf", "resume.pdf"),
           CustomFilePDF("resume2.pdf", "resume.pdf"),
-          CustomFileHTML("About me.html", "about_me"),
+          CustomFileHTML("FlutterGUI.html", "about_flutter_gui"),
           CustomFileImage("arctichare.png", "3.jpeg"),
           CustomFilePDF("resume4.pdf", "resume.pdf"),
         ],
