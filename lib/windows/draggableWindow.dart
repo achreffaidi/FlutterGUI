@@ -11,11 +11,11 @@ class DraggableWindow extends StatefulWidget {
   final Application childWidget;
 
   VoidCallback feedback;
-  VoidCallback? onCrash;
   double x = -1 ;
   double y = -1;
   late double prevX = 0 ;
   late double prevY = 0 ;
+  bool isVisible = true;
 
   bool isCrashed = false;
   Key key = UniqueKey();
@@ -23,7 +23,7 @@ class DraggableWindow extends StatefulWidget {
   bool isFullScreen = false;
 
 
-  DraggableWindow({Key? key, required this.childWidget,required this.feedback,this.onCrash}) : super(key: key);
+  DraggableWindow({Key? key, required this.childWidget,required this.feedback}) : super(key: key);
 
   ScreenshotController screenshotController = ScreenshotController();
 

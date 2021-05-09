@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:flutterOs/windows/window.dart';
@@ -25,7 +26,10 @@ class HtmlReaderApp extends Application {
    double getWidth() {
      return 500;
    }
-  
+   @override
+   FileType getFileType() {
+     return FileType.APP_HTML_READER;
+   }
 
   @override
   _HtmlReaderAppState createState() => _HtmlReaderAppState(path);
@@ -94,4 +98,5 @@ class _HtmlReaderAppState extends ApplicationState {
       ),
     );
   }
+
 }

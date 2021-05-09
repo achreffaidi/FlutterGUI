@@ -9,6 +9,8 @@ import 'package:flutterOs/Util/fileManager/files/CustomFileImage.dart';
 import 'package:flutterOs/Util/fileManager/files/CustomFilePDF.dart';
 import 'package:flutterOs/Util/fileManager/files/CustomFileVideo.dart';
 import 'package:flutterOs/Util/fileManager/files/Folder.dart';
+import 'package:flutterOs/windows/WindowManager.dart';
+import 'package:get_it/get_it.dart';
 import 'package:reorderables/reorderables.dart';
 
 import '../../../home.dart';
@@ -28,6 +30,7 @@ class FileTails extends StatefulWidget {
 class _FileTailsState extends State<FileTails> {
 
   List<Folder> stack;
+  WindowManager _windowManager = GetIt.instance.get<WindowManager>();
   _FileTailsState(this.stack);
 
   @override
@@ -109,15 +112,15 @@ class _FileTailsState extends State<FileTails> {
       generateTiles();
     }else
     if(e.fileType==FileType.VIDEO){
-      HomeScreen.windowManager.startVideoApp((e as CustomFileVideo).path);
+      _windowManager.startVideoApp((e as CustomFileVideo).path);
     }
     else if(e.fileType==FileType.PICTURE){
-      HomeScreen.windowManager.startPhotoPreviewApp("assets/photos/${(e as CustomFileImage).path}",null);
+      _windowManager.startPhotoPreviewApp("assets/photos/${(e as CustomFileImage).path}",null);
     }
     else if(e.fileType==FileType.PDF){
-      HomeScreen.windowManager.startPdfApp("assets/pdf/${(e as CustomFilePDF).path}");
+      _windowManager.startPdfApp("assets/pdf/${(e as CustomFilePDF).path}");
     }else if(e.fileType==FileType.HTML){
-      HomeScreen.windowManager.startHtmlReader("assets/html/${(e as CustomFileHTML).fileName}.html");
+      _windowManager.startHtmlReader("assets/html/${(e as CustomFileHTML).fileName}.html");
     }
   }
 

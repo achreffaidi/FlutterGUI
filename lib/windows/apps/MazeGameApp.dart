@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:maze/maze.dart';
 import 'package:flutterOs/windows/window.dart';
@@ -23,6 +24,10 @@ class MazeGameApp extends Application {
    @override
    double getWidth() {
      return 400;
+   }
+   @override
+   FileType getFileType() {
+     return FileType.APP_MAZE_GAME;
    }
   
 
@@ -149,6 +154,10 @@ class _MazeGameState extends ApplicationState {
       _difficulty = value!;
     });
   }
+
+
+
+
 }
 
 enum MazeStatus{idle,playing,end}

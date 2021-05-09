@@ -37,6 +37,10 @@ class FilesApp extends Application {
    double getWidth() {
      return 800;
    }
+   @override
+   FileType getFileType() {
+     return FileType.APP_FILE_MANAGER;
+   }
 
    static getImage(FileNode e) {
 
@@ -267,4 +271,7 @@ class _FilesAppState extends ApplicationState {
           ),
         );
   }
+
+
+
 }

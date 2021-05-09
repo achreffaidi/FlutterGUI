@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutterOs/windows/window.dart';
 import 'package:native_pdf_view/native_pdf_view.dart';
@@ -33,6 +34,12 @@ class CrashedApp extends Application {
   @override
   double getWidth() {
     return width;
+  }
+
+  @override
+  FileType getFileType() {
+    //TODO FIX THIS, This should be the same icon as the crashed app.
+    return FileType.APP_IMAGE_PREVIEW;
   }
 
 

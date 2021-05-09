@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutterOs/windows/window.dart';
 import 'package:native_pdf_view/native_pdf_view.dart';
@@ -31,6 +32,12 @@ class PdfReaderApp extends Application {
   double getWidth() {
     return 550;
   }
+
+  @override
+  FileType getFileType() {
+    return FileType.APP_PDF_READER;
+  }
+
 
   @override
   _PdfReaderAppState createState() => _PdfReaderAppState(path);
@@ -62,7 +69,6 @@ class _PdfReaderAppState extends ApplicationState {
       )
     );
   }
-
 
 
 

@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutterOs/Util/fileManager/files/Folder.dart';
 import 'package:flutterOs/Util/fileManager/files/fileManager.dart';
 import 'package:flutterOs/windows/apps/MazeGameApp.dart';
@@ -19,22 +19,23 @@ import 'package:get_it/get_it.dart';
 import 'WindowListener.dart';
 import 'apps/calculator.dart';
 import 'apps/painter.dart';
-import 'apps/screenshot.dart';
 
 class WindowManager{
 
 
 
-  final VoidCallback onUpdate;
+   VoidCallback? _onUpdate;
    late FileManager _fileManager;
 
-  final assetsAudioPlayer = AssetsAudioPlayer();
-  WindowManager({required this.onUpdate}){
+   set onUpdate(VoidCallback callback) {
+    _onUpdate = callback;
+  }
+
+
+
+  WindowManager(){
     _fileManager = GetIt.instance.get<FileManager>();
 
-    assetsAudioPlayer.open(
-      Audio("assets/erro.mp3"),
-    );
   }
 
   List<DraggableWindow> windows = List.empty(growable: true);
@@ -114,9 +115,6 @@ class WindowManager{
 
     final draggableWindow =  DraggableWindow(
       key: application.key,
-      onCrash: (){
-        assetsAudioPlayer.play();
-      },
       childWidget: application, feedback: () {  },);
 
     var timer = Timer(Duration(milliseconds: 1), () {
@@ -130,7 +128,7 @@ class WindowManager{
           draggableWindow.getScreenShotWidget().then((value)
           {
             windows.insert(1,value);
-            onUpdate();
+            _onUpdate!();
           }
           );
         });
@@ -141,7 +139,7 @@ class WindowManager{
 
       windows.insert(0, draggableWindow);
 
-      onUpdate();
+      _onUpdate!();
 
     });
 
@@ -149,7 +147,11 @@ class WindowManager{
     draggableWindow.childWidget.setListener(WindowListener(
       onClose: (window){
         windows.remove(draggableWindow);
-        onUpdate();
+        _onUpdate!();
+      },
+      onHide: (_){
+        draggableWindow.isVisible = false;
+        _onUpdate!();
       },
       onAppCrash: (_){
         draggableWindow.isCrashed= true;
@@ -158,10 +160,13 @@ class WindowManager{
         {
 
           windows.insert(1,value);
-          onUpdate();
+          _onUpdate!();
         }
         );
-
+        final assetsAudioPlayer = AssetsAudioPlayer();
+        assetsAudioPlayer.open(
+          Audio("assets/erro.mp3"),
+        );
         assetsAudioPlayer.play();
       },
 
@@ -170,9 +175,43 @@ class WindowManager{
 
     windows.insert(0,draggableWindow);
 
-    onUpdate();
+    _onUpdate!();
 
   }
 
+  void showAllOfType(FileType fileType){
+    for(var window in windows){
+      if(window.childWidget.getFileType()==fileType){
+        window.isVisible = true;
+      }
+    }
+    _onUpdate!();
+  }
+
+   void openOfType(FileType fileType){
+      switch(fileType){
+        case FileType.APP_CALCULATOR: startCalculatorApp(); break;
+        case FileType.APP_PAINTER: startPainterApp(); break;
+        case FileType.APP_FILE_MANAGER: startFolderApp(); break;
+        case FileType.APP_MAZE_GAME: startMazeGame(); break;
+        default:
+      }
+   }
+
+
+   void hideAllOfType(FileType fileType){
+       windows.forEach((element) { if(element.childWidget.getFileType() == fileType)
+         element.childWidget.listener!.onHide!(element.childWidget);
+       });
+   }
+
+   void closeAllOfType(FileType fileType){
+
+    List<Application> temp = List.empty(growable: true);
+     windows.forEach((element) { if(element.childWidget.getFileType() == fileType)
+       temp.add(element.childWidget);
+     });
+     temp.forEach((element) => element.listener!.onClose!(element));
+   }
 
 }

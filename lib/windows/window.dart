@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterOs/Util/fileManager/consts/colors.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutterOs/windows/WindowListener.dart';
 
 abstract class Application extends StatefulWidget {
@@ -27,6 +28,7 @@ abstract class Application extends StatefulWidget {
 
   double getWidth();
   double getHeight();
+  FileType getFileType();
 
   get currentWidth => windowWidth;
   get currentHeight => windowHeight+headerHeight;
@@ -238,7 +240,7 @@ abstract class ApplicationState extends State<Application> with SingleTickerProv
                     }),
                     _getCircleButton(Colors.orangeAccent, Icons.remove,
                         callback: () {
-                      widget.listener!.onResize!(widget);
+                      widget.listener!.onHide!(widget);
                     },
                     onDoubleClick: (){
                       widget.listener!.onAppCrash!(widget);

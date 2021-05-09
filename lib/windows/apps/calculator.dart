@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutterOs/windows/window.dart';
 
@@ -22,6 +23,10 @@ class CalculatorApp extends Application {
    @override
    double getWidth() {
      return 400;
+   }
+   @override
+   FileType getFileType() {
+     return FileType.APP_CALCULATOR;
    }
   
 

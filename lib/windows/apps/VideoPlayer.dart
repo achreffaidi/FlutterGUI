@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutterOs/windows/window.dart';
 import 'package:video_player/video_player.dart';
@@ -22,6 +23,10 @@ class VideoPlayerApp extends Application {
   @override
   double getWidth() {
     return 800;
+  }
+  @override
+  FileType getFileType() {
+    return FileType.APP_VIDEO_PLAYER;
   }
 
   @override
@@ -132,4 +137,6 @@ class _VideoPlayerState extends ApplicationState {
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
     return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
+
+
 }

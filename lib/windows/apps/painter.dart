@@ -1,9 +1,12 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutterOs/home.dart';
+import 'package:flutterOs/windows/WindowManager.dart';
 import 'package:flutterOs/windows/window.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get_it/get_it.dart';
 import '../WindowListener.dart';
 import 'dart:typed_data';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -26,6 +29,10 @@ class PainterApp extends Application {
    double getWidth() {
      return 600;
    }
+   @override
+   FileType getFileType() {
+     return FileType.APP_PAINTER;
+   }
 
 
   @override
@@ -46,8 +53,6 @@ class _PainterAppState extends ApplicationState {
       child: PainterPage(),
     );
   }
-
-
 
 }
 
@@ -135,7 +140,7 @@ class _PainterPageState extends State<PainterPage> {
       _finished = true;
     });
 
-    picture.toPNG().then((value) => HomeScreen.windowManager.startPhotoPreviewApp(null,value));
+    picture.toPNG().then((value) => GetIt.instance.get<WindowManager>().startPhotoPreviewApp(null,value));
 
   }
 }
