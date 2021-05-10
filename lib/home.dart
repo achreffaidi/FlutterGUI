@@ -1,5 +1,7 @@
 import 'dart:html';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterOs/Docker/dockItem.dart';
@@ -16,6 +18,12 @@ import 'Docker/dockController.dart';
 
 
 class HomeScreen extends StatefulWidget {
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
+  HomeScreen({ required this.analytics, required this.observer})
+      : super();
 
 
   @override
@@ -36,12 +44,15 @@ class _HomeScreenState extends State<HomeScreen> {
     _fileManager = GetIt.instance.get<FileManager>();
     document.onContextMenu.listen((event) => event.preventDefault());
     windowManager.onUpdate = _onWindowsUpdate;
+    windowManager.fileAnalytics = widget.analytics;
     _fileManager.subscribeToListener((){
       setState(() {
 
       });
     });
   }
+
+
 
   getPositioned() {
     var size = MediaQuery.of(context).size;

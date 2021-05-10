@@ -1,9 +1,10 @@
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterOs/Util/fileManager/files/fileManager.dart';
 import 'package:flutterOs/home.dart';
 import 'package:flutterOs/windows/WindowManager.dart';
 import 'package:get_it/get_it.dart';
-import 'package:native_pdf_view/native_pdf_view.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 void main() {
   GetIt getIt = GetIt.instance;
@@ -13,6 +14,11 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+  FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +26,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics),
+      ],
+      home: HomeScreen(analytics: analytics,observer: observer,),
     );
   }
 }

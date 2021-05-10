@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutterOs/Util/fileManager/files/Folder.dart';
@@ -25,16 +26,17 @@ class WindowManager{
 
 
    VoidCallback? _onUpdate;
-   late BuildContext _context;
    late FileManager _fileManager;
+   late FirebaseAnalytics _analytics;
 
    set onUpdate(VoidCallback callback) {
     _onUpdate = callback;
   }
 
 
-
-
+   set fileAnalytics(FirebaseAnalytics value) {
+    _analytics = value;
+  }
 
   WindowManager(){
     _fileManager = GetIt.instance.get<FileManager>();
@@ -43,6 +45,25 @@ class WindowManager{
 
   List<DraggableWindow> windows = List.empty(growable: true);
 
+   Future<void> _sendAnalyticsOpenApp(String appName) async {
+     await _analytics.logEvent(
+       name: 'OpenApp',
+       parameters: <String, dynamic>{
+         'appName': appName,
+       },
+     );
+   }
+
+   Future<void> _sendWindowsXPCrash(String appName) async {
+     await _analytics.logEvent(
+       name: 'WindowsXPCrash',
+       parameters: <String, dynamic>{
+         'appName': appName,
+       },
+     );
+   }
+   
+   
 
   void startCalculatorApp(){
 
@@ -115,7 +136,8 @@ class WindowManager{
 
   void generateSimpleDraggableWindow(Application application){
 
-
+ 
+     _sendAnalyticsOpenApp(application.title??"");
     final draggableWindow =  DraggableWindow(
       key: application.key,
       childWidget: application, feedback: () {  },);
@@ -156,7 +178,7 @@ class WindowManager{
         draggableWindow.isVisible = false;
         _onUpdate!();
       },
-      onAppCrash: (_){
+      onAppCrash: (window){
         draggableWindow.isCrashed= true;
         draggableWindow.childWidget.canResize = false;
         draggableWindow.getScreenShotWidget().then((value)
@@ -171,6 +193,7 @@ class WindowManager{
           Audio("assets/erro.mp3"),
         );
         assetsAudioPlayer.play();
+        _sendWindowsXPCrash(window.title??"");
       },
 
     ));
