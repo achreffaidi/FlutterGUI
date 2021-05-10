@@ -6,18 +6,23 @@ import 'package:flutterOs/windows/WindowManager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
+import 'Util/fileManager/AnalyticsService.dart';
+
+
 void main() {
+
+   FirebaseAnalytics analytics = FirebaseAnalytics();
+   FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
   GetIt getIt = GetIt.instance;
   getIt.registerSingleton<FileManager>(FileManager());
   getIt.registerSingleton<WindowManager>(WindowManager());
+  getIt.registerSingleton<AnalyticsService>(AnalyticsService(analytics,observer));
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
 
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer =
-  FirebaseAnalyticsObserver(analytics: analytics);
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +32,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: analytics),
+        FirebaseAnalyticsObserver(analytics: GetIt.instance.get<AnalyticsService>().analytics),
       ],
-      home: HomeScreen(analytics: analytics,observer: observer,),
+      home: HomeScreen(),
     );
   }
 }

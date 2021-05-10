@@ -19,11 +19,6 @@ import 'Docker/dockController.dart';
 
 class HomeScreen extends StatefulWidget {
 
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
-
-  HomeScreen({ required this.analytics, required this.observer})
-      : super();
 
 
   @override
@@ -44,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _fileManager = GetIt.instance.get<FileManager>();
     document.onContextMenu.listen((event) => event.preventDefault());
     windowManager.onUpdate = _onWindowsUpdate;
-    windowManager.fileAnalytics = widget.analytics;
     _fileManager.subscribeToListener((){
       setState(() {
 

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutterOs/Util/fileManager/AnalyticsService.dart';
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutterOs/Util/fileManager/files/Folder.dart';
 import 'package:flutterOs/Util/fileManager/files/fileManager.dart';
@@ -27,16 +28,12 @@ class WindowManager{
 
    VoidCallback? _onUpdate;
    late FileManager _fileManager;
-   late FirebaseAnalytics _analytics;
+   late AnalyticsService _analytics = GetIt.instance.get<AnalyticsService>();
 
    set onUpdate(VoidCallback callback) {
     _onUpdate = callback;
   }
 
-
-   set fileAnalytics(FirebaseAnalytics value) {
-    _analytics = value;
-  }
 
   WindowManager(){
     _fileManager = GetIt.instance.get<FileManager>();
@@ -45,23 +42,7 @@ class WindowManager{
 
   List<DraggableWindow> windows = List.empty(growable: true);
 
-   Future<void> _sendAnalyticsOpenApp(String appName) async {
-     await _analytics.logEvent(
-       name: 'OpenApp',
-       parameters: <String, dynamic>{
-         'appName': appName,
-       },
-     );
-   }
 
-   Future<void> _sendWindowsXPCrash(String appName) async {
-     await _analytics.logEvent(
-       name: 'WindowsXPCrash',
-       parameters: <String, dynamic>{
-         'appName': appName,
-       },
-     );
-   }
    
    
 
@@ -137,7 +118,7 @@ class WindowManager{
   void generateSimpleDraggableWindow(Application application){
 
  
-     _sendAnalyticsOpenApp(application.title??"");
+     _analytics.sendAnalyticsOpenApp(application.title??"");
     final draggableWindow =  DraggableWindow(
       key: application.key,
       childWidget: application, feedback: () {  },);
@@ -193,7 +174,7 @@ class WindowManager{
           Audio("assets/erro.mp3"),
         );
         assetsAudioPlayer.play();
-        _sendWindowsXPCrash(window.title??"");
+        _analytics.sendWindowsXPCrash(window.title??"");
       },
 
     ));
