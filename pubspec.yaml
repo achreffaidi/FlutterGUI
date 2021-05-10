@@ -65,6 +65,7 @@ flutter:
   assets:
     - assets/photos/
     - assets/photos/memes/
+    - assets/photos/game/
     - assets/photos/instagram/
     - assets/icons/
     - assets/mazeResources/

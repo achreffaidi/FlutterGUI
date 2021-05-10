@@ -79,7 +79,7 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(PdfReaderApp(title: "Pdf Reader",appKey: appKey,key: key,path: path,));
+    generateSimpleDraggableWindow(PdfReaderApp(title: "PDF Reader",appKey: appKey,key: key,path: path,));
   }
 
   void startMazeGame(){
@@ -87,7 +87,7 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(MazeGameApp(title: "Maze",appKey: appKey,key: key));
+    generateSimpleDraggableWindow(MazeGameApp(title: "Game",appKey: appKey,key: key));
   }
 
   void startHtmlReader(String path){
@@ -95,7 +95,7 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(HtmlReaderApp(title: "Html Reader",appKey: appKey,key: key,path: path,));
+    generateSimpleDraggableWindow(HtmlReaderApp(title: "HTML Reader",appKey: appKey,key: key,path: path,));
   }
   void startPainterApp(){
 
@@ -111,7 +111,7 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
     if(folder==null)folder = _fileManager.root;
-    generateSimpleDraggableWindow(FilesApp(title: "Folder App",appKey: appKey, key: key,currentFolder: folder));
+    generateSimpleDraggableWindow(FilesApp(title: "File Manager",appKey: appKey, key: key,currentFolder: folder));
 
   }
   void startVideoApp(String url){
@@ -119,7 +119,7 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(VideoPlayerApp(title: "Player",appKey: appKey, key: key,videoUrl: url));
+    generateSimpleDraggableWindow(VideoPlayerApp(title: "Video Player",appKey: appKey, key: key,videoUrl: url));
 
   }
 
@@ -128,7 +128,7 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(PhotoPreviewApp(title: "Photo Preview",appKey: appKey, key: key ,path: path,memory: memory,));
+    generateSimpleDraggableWindow(PhotoPreviewApp(title: "Photos",appKey: appKey, key: key ,path: path,memory: memory,));
 
   }
 

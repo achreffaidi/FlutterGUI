@@ -26,8 +26,12 @@ class FileManager {
           ]),
           CustomFileHTML("FlutterGUI.html", "about_flutter_gui"),
           CustomFileHTML("AboutMe.html", "about_me"),
-          CustomFileImage("me.jpeg", "1.jpeg"),
+          CustomFileImage("Ex-Cat.jpeg", "1.jpeg"),
           CustomFilePDF("resume.pdf", "resume.pdf"),
+          CustomFileHTML("MyInstagram.html", "my_instagram"),
+          CustomFileImage("MyCountry.jpg", "instagram/insta1.jpg"),
+          CustomFileImage("StreetCat.jpg", "instagram/insta2.jpg"),
+          CustomFileImage("randomChicken.jpg", "instagram/insta3.jpg"),
         ],
         canBeDeleted: false);
     _root = Folder(
