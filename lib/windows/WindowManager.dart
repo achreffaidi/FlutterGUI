@@ -25,11 +25,14 @@ class WindowManager{
 
 
    VoidCallback? _onUpdate;
+   late BuildContext _context;
    late FileManager _fileManager;
 
    set onUpdate(VoidCallback callback) {
     _onUpdate = callback;
   }
+
+
 
 
 
@@ -174,6 +177,7 @@ class WindowManager{
 
 
     windows.insert(0,draggableWindow);
+
 
     _onUpdate!();
 

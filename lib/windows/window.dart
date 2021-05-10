@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +70,16 @@ abstract class ApplicationState extends State<Application> with SingleTickerProv
       key: widget.appKey,
       child: Stack(
         children: [
+          Positioned.fill(
+
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(
+                  color: Colors.black.withOpacity(0),
+                ),
+              ),),
+          ),
           Positioned(
             top: 0,
             bottom: 0,
@@ -235,10 +246,10 @@ abstract class ApplicationState extends State<Application> with SingleTickerProv
                 bottom: 10,
                 child: Row(
                   children: [
-                    _getCircleButton(Colors.red, Icons.close, callback: () {
+                    _getCircleButton(Colors.red, callback: () {
                       widget.listener!.onClose!(widget);
                     }),
-                    _getCircleButton(Colors.orangeAccent, Icons.remove,
+                    _getCircleButton(Colors.orangeAccent,
                         callback: () {
                       widget.listener!.onHide!(widget);
                     },
@@ -246,14 +257,14 @@ abstract class ApplicationState extends State<Application> with SingleTickerProv
                       widget.listener!.onAppCrash!(widget);
                     }
                     ),
-                    _getCircleButton(Colors.green, Icons.fullscreen,callback: _onResizeButtonClicked
+                    _getCircleButton(Colors.green,callback: _onResizeButtonClicked
                     )
                   ],
                 ),
               ),
               Center(
                   child:
-                      Title(color: Colors.white, child: Text(widget.title!))),
+                      Title(color: Colors.white, child: Text(widget.title!,style: TextStyle(color: Colors.white),))),
               Container()
             ],
           )),
@@ -297,7 +308,6 @@ abstract class ApplicationState extends State<Application> with SingleTickerProv
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10)),
               child: Container(
-                  color: Resources.WINDOW_BODY_COLOR,
                   child: getApp())),
         ));
   }
@@ -305,7 +315,7 @@ abstract class ApplicationState extends State<Application> with SingleTickerProv
 
   Widget getApp();
 
-  _getCircleButton(Color color, IconData iconData, {VoidCallback? callback, VoidCallback? onDoubleClick}) {
+  _getCircleButton(Color color, {VoidCallback? callback, VoidCallback? onDoubleClick}) {
     return InkResponse(
       onTap: callback,
       onDoubleTap: onDoubleClick,
@@ -316,11 +326,6 @@ abstract class ApplicationState extends State<Application> with SingleTickerProv
         decoration: new BoxDecoration(
           color: color,
           shape: BoxShape.circle,
-        ),
-        child: new Icon(
-          iconData,
-          size: 10,
-          color: Color.lerp(Colors.black, Colors.transparent, 0.5),
         ),
       ),
     );

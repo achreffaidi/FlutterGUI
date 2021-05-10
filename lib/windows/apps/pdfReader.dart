@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/consts/colors.dart';
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutterOs/windows/window.dart';
@@ -63,6 +64,7 @@ class _PdfReaderAppState extends ApplicationState {
     return Container(
       height: widget.windowHeight,
       width: widget.windowWidth,
+      color: Resources.WINDOW_BODY_COLOR,
       child: PdfView(
         controller: pdfController,
         scrollDirection: Axis.vertical,

@@ -67,8 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Image.network(
-              "https://blog.glugmvit.com/assets/images/first_app/flutter.jpg",
+            child: Image.asset(
+              "assets/photos/background.jpg",
               fit: BoxFit.fill,
             ),
           ),

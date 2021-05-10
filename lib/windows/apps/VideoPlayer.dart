@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/consts/colors.dart';
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutterOs/windows/window.dart';
@@ -85,6 +86,7 @@ class _VideoPlayerState extends ApplicationState {
           ),
           Container(
             height: _controllersHeight,
+            color: Resources.WINDOW_BODY_COLOR,
             child: Center(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

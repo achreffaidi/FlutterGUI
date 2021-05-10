@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/consts/colors.dart';
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
@@ -50,6 +51,7 @@ class _HtmlReaderAppState extends ApplicationState {
     return Container(
       height: widget.windowHeight,
       width: widget.windowWidth,
+      color: Resources.WINDOW_BODY_COLOR,
       child: SingleChildScrollView(
         child: FutureBuilder(future: getFileData(path),builder: _builder,),
       ),

@@ -124,7 +124,7 @@ class _PainterPageState extends State<PainterPage> {
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.lightBlueAccent,
-          title: const Text('Painter Example'),
+          title: const Text(""),
           actions: actions,
           bottom: new PreferredSize(
             child: new DrawBar(_controller),

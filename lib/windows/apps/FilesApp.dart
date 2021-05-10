@@ -1,7 +1,10 @@
 
 
+import 'dart:ui';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/consts/colors.dart';
 import 'package:flutterOs/windows/apps/widgets/fileTiles.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutter_treeview/tree_view.dart';
@@ -120,7 +123,7 @@ class _FilesAppState extends ApplicationState {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color.lerp(Colors.blue, Colors.transparent, 0.2),
           leading: Row(
             children: [
               IconButton(onPressed: (stack.length>1)? _onBackClicked : null, icon: Icon(Icons.arrow_back_ios))
@@ -135,35 +138,28 @@ class _FilesAppState extends ApplicationState {
 
                 width: _panelWidth,
                 height: widget.windowHeight,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Colors.blue,
-                        Colors.white,
-                        Colors.white,
-                      ],
-                    )
-                ),
+                color: Color.lerp(Colors.blue, Colors.transparent, 0.2),
                 child: getPane(),
               ),
               Container(
                 height: widget.windowHeight,
                 width: widget.windowWidth - _panelWidth,
+                color: Resources.WINDOW_BODY_COLOR,
                 child: SingleChildScrollView(
-                  child: FileTails(
-                      stack,
-                      fromFileManagerApp: true,
-                      onFolderOpen: (e){
-                        stack.insert(0, e as Folder);
-                        setState(() {
+                  child: Container(
+                    child: FileTails(
+                        stack,
+                        fromFileManagerApp: true,
+                        onFolderOpen: (e){
+                          stack.insert(0, e as Folder);
+                          setState(() {
 
-                        });
+                          });
+                        },
+                      onFileNodeDelete: (e){
+                          _fileManager.delete(e, _fileManager.root);
                       },
-                    onFileNodeDelete: (e){
-                        _fileManager.delete(e, _fileManager.root);
-                    },
+                    ),
                   ),
                 ),
               ),
@@ -199,7 +195,6 @@ class _FilesAppState extends ApplicationState {
   }
 
   void _onHorizontalDragRight(DragUpdateDetails details) {
-
     setState(() {
       if(_panelWidth<widget.windowWidth/2 || details.delta.dx<0 )
       _panelWidth += details.delta.dx;
@@ -209,6 +204,15 @@ class _FilesAppState extends ApplicationState {
     });
   }
 
+  TreeViewTheme _treeViewTheme = TreeViewTheme(
+    expanderTheme: ExpanderThemeData(
+      type: ExpanderType.chevron,
+      color: Colors.white,
+      animated: true,
+      size: 20,
+    ),
+  );
+
   getPane() {
     return Stack(
       children: [
@@ -216,6 +220,7 @@ class _FilesAppState extends ApplicationState {
           allowParentSelect: true,
           controller: _treeViewController,
           nodeBuilder: _nodeBuilder,
+          theme: _treeViewTheme,
           onNodeTap: (key) {
             Node selectedNode = _treeViewController.getNode(key);
             stack.insert(0,selectedNode.data) ;
@@ -260,14 +265,18 @@ class _FilesAppState extends ApplicationState {
     var isSelected = node.data == stack.first;
     return
         Container(
-          color: isSelected? Color.lerp(Colors.blue, Colors.transparent, 0.5):Colors.transparent,
+          decoration: BoxDecoration(
+              color: isSelected? Color.lerp(Colors.blue, Colors.transparent, 0.5):Colors.transparent,
+              borderRadius: BorderRadius.all(Radius.circular(10))
+          ),
+
           child: Row(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset("assets/icons/folder.png",height: 20,width: 20,),
               ),
-              Text(node.data.name),
+              Text(node.data.name,style: TextStyle(color: Colors.white),),
             ],
           ),
         );

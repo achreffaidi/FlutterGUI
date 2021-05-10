@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/consts/colors.dart';
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:maze/maze.dart';
@@ -44,10 +45,12 @@ class _MazeGameState extends ApplicationState {
   @override
   Widget getApp() {
 
+
      switch(_status){
       case MazeStatus.idle: return Container(
         height: widget.windowHeight,
         width: widget.windowWidth,
+        color: Resources.WINDOW_BODY_COLOR,
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -104,6 +107,7 @@ class _MazeGameState extends ApplicationState {
        case MazeStatus.playing: return Container(
          height: widget.windowHeight,
          width: widget.windowWidth,
+         color: Resources.WINDOW_BODY_COLOR,
          child: Maze(
              player: MazeItem(
                  'assets/icons/folder.png',
@@ -124,6 +128,7 @@ class _MazeGameState extends ApplicationState {
              }),
        );
        case MazeStatus.end: return Container(
+         color: Resources.WINDOW_BODY_COLOR,
          height: widget.windowHeight,
          width: widget.windowWidth,
          child: Container(
