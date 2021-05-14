@@ -23,7 +23,7 @@ class DockController{
       DockItem("Painter", FileType.APP_PAINTER,true),
       DockItem("Game", FileType.APP_MAZE_GAME,true),
       DockItem("Image Preview", FileType.APP_IMAGE_PREVIEW,false),
-      DockItem("Video Preview", FileType.APP_VIDEO_PLAYER,false),
+      DockItem("Video Player", FileType.APP_VIDEO_PLAYER,false),
       DockItem("PDF Reader", FileType.APP_PDF_READER,false),
       DockItem("HTML Reader", FileType.APP_HTML_READER,false),
     ];

@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
-import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutterOs/windows/window.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -49,11 +48,6 @@ class _PhotoPreviewAppState extends ApplicationState {
   String? path;
   Uint8List? memory;
   _PhotoPreviewAppState(this.path,this.memory);
-
-
-
-
-
 
   @override
   Widget getApp(){

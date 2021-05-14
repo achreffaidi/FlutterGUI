@@ -88,7 +88,7 @@ class _FileTailsState extends State<FileTails> {
         PopupMenuItem(child: Text('Open'), value: 1),
         PopupMenuItem(child: Text('Remove'), value: 2),
       ];
-      if(e.fileType==FileType.FOLDER && widget.fromFileManagerApp) items.insert(1, PopupMenuItem(child: Text('Open new Tab'), value: 3));
+      if(e.fileType==FileType.FOLDER && widget.fromFileManagerApp) items.insert(1, PopupMenuItem(child: Text('Open in new Window'), value: 3));
       final overlay =
       Overlay.of(context)!.context.findRenderObject() as RenderBox;
       final menuItem = await showMenu<int>(

@@ -1,11 +1,13 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutterOs/Util/fileManager/AnalyticsService.dart';
 import 'package:flutterOs/Util/fileManager/consts/colors.dart';
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:flutterOs/windows/window.dart';
+import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import '../WindowListener.dart';
@@ -41,11 +43,6 @@ class _HtmlReaderAppState extends ApplicationState {
   late String path;
   _HtmlReaderAppState(this.path);
 
-
-
-
-  
-
   @override
   Widget getApp(){
     return Container(
@@ -58,8 +55,10 @@ class _HtmlReaderAppState extends ApplicationState {
     );
   }
 
-  void _launchURL(String url) async =>
-      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
+  void _launchURL(String url) async {
+    GetIt.instance.get<AnalyticsService>().sendOpenUrl(url);
+    await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
+  }
 
   Future<String> getFileData(String path) async {
     return await rootBundle.loadString(path);

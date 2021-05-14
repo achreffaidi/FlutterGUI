@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutterOs/Util/fileManager/AnalyticsService.dart';
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutterOs/Util/fileManager/files/Folder.dart';
 import 'package:flutterOs/Util/fileManager/files/fileManager.dart';
@@ -25,15 +27,12 @@ class WindowManager{
 
 
    VoidCallback? _onUpdate;
-   late BuildContext _context;
    late FileManager _fileManager;
+   late AnalyticsService _analytics = GetIt.instance.get<AnalyticsService>();
 
    set onUpdate(VoidCallback callback) {
     _onUpdate = callback;
   }
-
-
-
 
 
   WindowManager(){
@@ -43,6 +42,9 @@ class WindowManager{
 
   List<DraggableWindow> windows = List.empty(growable: true);
 
+
+   
+   
 
   void startCalculatorApp(){
 
@@ -58,7 +60,7 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(PdfReaderApp(title: "Pdf Reader",appKey: appKey,key: key,path: path,));
+    generateSimpleDraggableWindow(PdfReaderApp(title: "PDF Reader",appKey: appKey,key: key,path: path,));
   }
 
   void startMazeGame(){
@@ -66,7 +68,7 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(MazeGameApp(title: "Maze",appKey: appKey,key: key));
+    generateSimpleDraggableWindow(MazeGameApp(title: "Game",appKey: appKey,key: key));
   }
 
   void startHtmlReader(String path){
@@ -74,7 +76,7 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(HtmlReaderApp(title: "Html Reader",appKey: appKey,key: key,path: path,));
+    generateSimpleDraggableWindow(HtmlReaderApp(title: "HTML Reader",appKey: appKey,key: key,path: path,));
   }
   void startPainterApp(){
 
@@ -90,7 +92,7 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
     if(folder==null)folder = _fileManager.root;
-    generateSimpleDraggableWindow(FilesApp(title: "Folder App",appKey: appKey, key: key,currentFolder: folder));
+    generateSimpleDraggableWindow(FilesApp(title: "File Manager",appKey: appKey, key: key,currentFolder: folder));
 
   }
   void startVideoApp(String url){
@@ -98,7 +100,7 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(VideoPlayerApp(title: "Player",appKey: appKey, key: key,videoUrl: url));
+    generateSimpleDraggableWindow(VideoPlayerApp(title: "Video Player",appKey: appKey, key: key,videoUrl: url));
 
   }
 
@@ -107,7 +109,7 @@ class WindowManager{
     var key = UniqueKey();
     var appKey = GlobalKey();
 
-    generateSimpleDraggableWindow(PhotoPreviewApp(title: "Photo Preview",appKey: appKey, key: key ,path: path,memory: memory,));
+    generateSimpleDraggableWindow(PhotoPreviewApp(title: "Photos",appKey: appKey, key: key ,path: path,memory: memory,));
 
   }
 
@@ -115,7 +117,8 @@ class WindowManager{
 
   void generateSimpleDraggableWindow(Application application){
 
-
+ 
+     _analytics.sendAnalyticsOpenApp(application.title??"");
     final draggableWindow =  DraggableWindow(
       key: application.key,
       childWidget: application, feedback: () {  },);
@@ -156,7 +159,7 @@ class WindowManager{
         draggableWindow.isVisible = false;
         _onUpdate!();
       },
-      onAppCrash: (_){
+      onAppCrash: (window){
         draggableWindow.isCrashed= true;
         draggableWindow.childWidget.canResize = false;
         draggableWindow.getScreenShotWidget().then((value)
@@ -171,6 +174,7 @@ class WindowManager{
           Audio("assets/erro.mp3"),
         );
         assetsAudioPlayer.play();
+        _analytics.sendWindowsXPCrash(window.title??"");
       },
 
     ));

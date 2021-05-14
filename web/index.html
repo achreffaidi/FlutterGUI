@@ -11,7 +11,6 @@
     For more details:
     * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
   -->
-  <base href="/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -26,13 +25,39 @@
   <script type="text/javascript">
   pdfjsLib.GlobalWorkerOptions.workerSrc = "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.4.456/pdf.worker.min.js";
 </script>
-  <title>flutterOs</title>
+  <title>flutterGUI</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+      var firebaseConfig = {
+    apiKey: "AIzaSyDF2moja185HwHV-p7bmGhNJha_yiOqhPc",
+    authDomain: "fluttergui-2ae2a.firebaseapp.com",
+    projectId: "fluttergui-2ae2a",
+    storageBucket: "fluttergui-2ae2a.appspot.com",
+    messagingSenderId: "213098182876",
+    appId: "1:213098182876:web:5e0986c7f53d169d9cdc19",
+    measurementId: "G-03412D0Z5H"
+  };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
 </head>
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+
+
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;

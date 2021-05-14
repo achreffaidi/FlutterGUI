@@ -110,7 +110,7 @@ class _MazeGameState extends ApplicationState {
          color: Resources.WINDOW_BODY_COLOR,
          child: Maze(
              player: MazeItem(
-                 'assets/icons/folder.png',
+                 'assets/photos/game/pug.png',
                  ImageType.asset),
              columns: size,
              rows: size,
@@ -119,7 +119,7 @@ class _MazeGameState extends ApplicationState {
                  .of(context)
                  .primaryColor,
              finish: MazeItem(
-                 'assets/icons/youtube.png',
+                 'assets/photos/game/bone.png',
                  ImageType.asset),
              onFinish: (){
                setState(() {
@@ -159,9 +159,6 @@ class _MazeGameState extends ApplicationState {
       _difficulty = value!;
     });
   }
-
-
-
 
 }
 
