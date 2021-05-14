@@ -54,11 +54,6 @@ class _PdfReaderAppState extends ApplicationState {
     );
   }
 
-
-
-
-
-
   @override
   Widget getApp(){
     return Container(
@@ -71,10 +66,5 @@ class _PdfReaderAppState extends ApplicationState {
       )
     );
   }
-
-
-
-  
-
 
 }

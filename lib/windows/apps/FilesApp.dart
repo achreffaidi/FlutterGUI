@@ -6,20 +6,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterOs/Util/fileManager/consts/colors.dart';
 import 'package:flutterOs/windows/apps/widgets/fileTiles.dart';
-import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:flutter_treeview/tree_view.dart';
 import 'package:flutterOs/Util/fileManager/fileIconManager.dart';
 import 'package:flutterOs/Util/fileManager/fileNode.dart';
-import 'package:flutterOs/Util/fileManager/files/CustomFileHTML.dart';
 import 'package:flutterOs/Util/fileManager/files/CustomFileImage.dart';
-import 'package:flutterOs/Util/fileManager/files/CustomFilePDF.dart';
 import 'package:flutterOs/Util/fileManager/files/CustomFileVideo.dart';
 import 'package:flutterOs/Util/fileManager/files/fileManager.dart';
 import 'package:flutterOs/Util/fileManager/files/Folder.dart';
 import 'package:flutterOs/windows/window.dart';
 import 'package:get_it/get_it.dart';
-import 'package:reorderables/reorderables.dart';
-import '../../home.dart';
 import '../WindowListener.dart';
 
 
@@ -74,9 +69,6 @@ class FilesApp extends Application {
 
      return     Image.asset(IconManager.getIconPath(e.fileType));
    }
-
-
-
 
    static Node<Folder> convert(Folder folder,{bool isExpanded = false}){
      List<Node<Folder>> children = [];
@@ -170,8 +162,6 @@ class _FilesAppState extends ApplicationState {
     );
   }
 
-
-
   late FileManager _fileManager;
   @override
   void initState() {
@@ -183,9 +173,6 @@ class _FilesAppState extends ApplicationState {
       });
     });
   }
-
-
-
 
   void _onBackClicked() {
       stack.removeAt(0);

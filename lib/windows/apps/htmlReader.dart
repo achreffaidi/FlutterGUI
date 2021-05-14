@@ -43,11 +43,6 @@ class _HtmlReaderAppState extends ApplicationState {
   late String path;
   _HtmlReaderAppState(this.path);
 
-
-
-
-  
-
   @override
   Widget getApp(){
     return Container(

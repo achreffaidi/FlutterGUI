@@ -160,9 +160,6 @@ class _MazeGameState extends ApplicationState {
     });
   }
 
-
-
-
 }
 
 enum MazeStatus{idle,playing,end}
